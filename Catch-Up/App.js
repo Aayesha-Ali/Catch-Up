@@ -8,47 +8,60 @@ import RegistrationScreen from "./screens/RegistrationScreen/RegistrationScreen"
 import HomeScreen from "./screens/HomeScreen/HomeScreen";
 
 
-const Stack = createStackNavigator();
-
-function App() {
-  const [initlizing, setInitilizing] = useState(true);
-  const [user, setUser] = useState();
-
-  function onAuthStateChanged(user) {
-    setUser(user);
-
-    if(initlizing) setInitilizing(false);
-  }
-
-  useEffect(() => {
-    const subscriber = firebase.auth().onAuthStateChanged(onAuthStateChanged);
-    return subscriber;
-  }, []);
-
-  if(initlizing) return null;
-
-  if (!user){
-    return (
-      <Stack.Navigator> 
-        <Stack.Screen name="Login" component={LoginScreen}/>
-        <Stack.Screen name="Create Account" component={RegistrationScreen}/>
-      </Stack.Navigator>
-    );
-  }
-
-  return  ( 
-    <Stack.Navigator> 
-      <Stack.Screen name="HomeScreen" component={HomeScreen}/>
-    </Stack.Navigator>
-);
+import { decode, encode } from "base-64";
+if (!global.btoa) {
+  global.btoa = encode;
+}
+if (!global.atob) {
+  global.atob = decode;
 }
 
+const Stack = createStackNavigator();
 
+export default function App() {
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(null);
 
-export default () => {
+  useEffect(() => {
+    const usersRef = firebase.firestore().collection("users");
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        usersRef
+          .doc(user.uid)
+          .get()
+          .then((document) => {
+            const userData = document.data();
+            setLoading(false);
+            setUser(userData);
+          })
+          .catch((error) => {
+            setLoading(false);
+          });
+      } else {
+        setLoading(false);
+      }
+    });
+  }, []);
+
+  if (loading) {
+    return <></>;
+  }
+
   return (
     <NavigationContainer>
-      <App />
+      <Stack.Navigator>
+        {user ? (
+          <Stack.Screen name="Home">
+            {(props) => <HomeScreen {...props} extraData={user} />}
+          </Stack.Screen>
+        ) : (
+          <>
+            <Stack.Screen name="Login" component={LoginScreen} />
+            <Stack.Screen name="Create Account" title="account" component={RegistrationScreen}/>
+            
+          </>
+        )}
+      </Stack.Navigator>
     </NavigationContainer>
-  )
+  );
 }
