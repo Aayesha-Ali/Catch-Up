@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { firebase } from '../../config';
 import SearchBar from '../../components/searchBar';
 import List from '../../components/filter';
-import styles from '../FriendsScreen/styles';
+import styles from './styles';
 const FriendsScreen = ({navigation}) => {
 
   const AddFriends = () => {
