@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { Image, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import styles from './styles';
 import { firebase } from '../../config';
+import styles from './styles';
 
 export default function LoginScreen({navigation}) {
     const [email, setEmail] = useState('')
@@ -10,6 +10,10 @@ export default function LoginScreen({navigation}) {
 
     const onFooterLinkPress = () => {
         navigation.navigate('Create Account')
+    }
+
+    const resetPassword = () => {
+        navigation.navigate('Forgot Password?')
     }
 
     const onLoginPress = () => {
@@ -24,11 +28,10 @@ export default function LoginScreen({navigation}) {
                     .get()
                     .then(firestoreDocument => {
                         if (!firestoreDocument.exists) {
-                            alert("User does not exist anymore.")
+                            alert("User does not exist.")
                             return;
                         }
                         const user = firestoreDocument.data()
-                        navigation.navigate('HomeScreen', {user: user})
                     })
                     .catch(error => {
                         alert(error)
@@ -49,7 +52,7 @@ export default function LoginScreen({navigation}) {
                     style={styles.logo}
                     source={require('../../assets/Catchup.png')}
                 />
-        
+               
                 <TextInput
                     style={styles.input}
                     placeholder='E-mail'
@@ -58,7 +61,8 @@ export default function LoginScreen({navigation}) {
                     value={email}
                     underlineColorAndroid="transparent"
                     autoCapitalize="none"
-                />
+                />    
+                
                 <TextInput
                     style={styles.input}
                     placeholderTextColor="#aaaaaa"
@@ -69,6 +73,7 @@ export default function LoginScreen({navigation}) {
                     underlineColorAndroid="transparent"
                     autoCapitalize="none"
                 />
+
                 <TouchableOpacity
                     style={styles.button}
                     onPress={() => onLoginPress()}>
@@ -76,6 +81,10 @@ export default function LoginScreen({navigation}) {
                 </TouchableOpacity>
                 <View style={styles.footerView}>
                     <Text style={styles.footerText}>Don't have an account? <Text onPress={onFooterLinkPress} style={styles.footerLink}>Sign up</Text></Text>
+                </View>
+
+                <View style={styles.footerView}>
+                    <Text style={styles.footerText}><Text onPress={resetPassword} style={styles.footerLink}>Forgot Password?</Text></Text>
                 </View>
             </KeyboardAwareScrollView>
         </View>

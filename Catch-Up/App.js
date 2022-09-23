@@ -8,7 +8,7 @@ import RegistrationScreen from "./screens/RegistrationScreen/RegistrationScreen"
 import HomeScreen from "./screens/HomeScreen/HomeScreen";
 
 import { decode, encode } from "base-64";
-import FreindScreen from "./screens/FriendScreen/FreindScreen";
+
 if (!global.btoa) {
   global.btoa = encode;
 }
@@ -51,13 +51,10 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         {user ? (
-          // <Stack.Screen name="Home">
-          // {(props) => <HomeScreen {...props} extraData={user} />}
-          // </Stack.Screen>
-
-          <Stack.Screen name="Friends List">
-            {(props) => <FreindScreen {...props} extraData={user} />}
+           <Stack.Screen name="Home">
+          {(props) => <HomeScreen {...props} extraData={user} />}
           </Stack.Screen>
+
         ) : (
           <>
             <Stack.Screen name="Login" component={LoginScreen} />
