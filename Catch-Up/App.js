@@ -6,6 +6,7 @@ import { firebase } from "./config";
 import LoginScreen from "./screens/LoginScreen/LoginScreen";
 import RegistrationScreen from "./screens/RegistrationScreen/RegistrationScreen";
 import HomeScreen from "./screens/HomeScreen/HomeScreen";
+import ResetPasswordScreen from "./screens/ResetPasswordScreen/ResetPasswordScreen";
 
 import { decode, encode } from "base-64";
 
@@ -58,11 +59,8 @@ export default function App() {
         ) : (
           <>
             <Stack.Screen name="Login" component={LoginScreen} />
-            <Stack.Screen
-              name="Create Account"
-              title="account"
-              component={RegistrationScreen}
-            />
+            <Stack.Screen name="Create Account" title="account" component={RegistrationScreen}/>
+            <Stack.Screen name="Forgot Password?" component={ResetPasswordScreen}/>
           </>
         )}
       </Stack.Navigator>
