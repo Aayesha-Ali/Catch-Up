@@ -8,7 +8,7 @@ import RegistrationScreen from "./screens/RegistrationScreen/RegistrationScreen"
 import HomeScreen from "./screens/HomeScreen/HomeScreen";
 import ResetPasswordScreen from "./screens/ResetPasswordScreen/ResetPasswordScreen";
 import FriendsScreen from "./screens/FriendsScreen/FriendsScreen";
-import AddFriendsScreen from "./screens/AddFriendsScreen/AddFriendsScreen";
+import AddFriendsScreen from "./screens/AddFriendScreen/AddFriendsScreen";
 
 import { decode, encode } from "base-64";
 if (!global.btoa) {
