@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { Image, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { firebase } from '../../config';
 import styles from './styles';
+import { firebase } from '../../config';
 
 export default function LoginScreen({navigation}) {
     const [email, setEmail] = useState('')
@@ -15,8 +15,22 @@ export default function LoginScreen({navigation}) {
     const resetPassword = () => {
         navigation.navigate('Forgot Password?')
     }
-
     const onLoginPress = () => {
+
+        if (email.length == 0) {
+            alert("Please enter an email address.")
+            return
+          }
+          else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))
+          {
+            alert("Incorrect email format.")
+              return
+          }
+          else  if (password.length == 0) {
+            alert("Please enter a password.")
+            return
+          }
+          else {
         firebase
             .auth()
             .signInWithEmailAndPassword(email, password)
@@ -34,13 +48,25 @@ export default function LoginScreen({navigation}) {
                         const user = firestoreDocument.data()
                     })
                     .catch(error => {
+
                         alert(error)
                     });
             })
             .catch(error => {
-                alert(error)
-            })
+                if (error.code === "auth/wrong-password") {
+                    alert("The password you have entered is incorrect!")
+                  }
 
+                  if (error.code === "auth/user-not-found") {
+                    alert("There is no account registered with this email address.")
+                  }
+
+
+
+
+               
+            })
+        }
     }
 
     return (
