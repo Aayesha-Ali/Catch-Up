@@ -17,44 +17,43 @@ export default function RegistrationScreen({ navigation }) {
   };
 
   const onRegisterPress = () => {
-    if (password.length < 8) {
-      alert("Password must be at least 8characters.")
+
+     if (firstName.length == 0) {
+      alert("Please enter your first name.")
+      return
+    }
+    else if (!/^[a-z]+$/i.test(firstName))
+    {
+      alert("Incorrect format for first name. You can only use alpanumeric characters.")
+        return
+    }
+    else if (lastName.length == 0) {
+      alert("Please enter your last name.")
+      return
+    }
+    else if (!/^[a-z]+$/i.test(lastName))
+    {
+      alert("Incorrect format for last name. You can only use alpanumeric characters.")
+        return
+    }
+    else if (email.length == 0) {
+      alert("Please enter an email address.")
+      return
+    }
+    else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))
+    {
+      alert("Incorrect email format.")
+        return
+    }
+    else if (password.length < 8) {
+      alert("Password must be at least 8 characters.")
       return
     }
     else if (password !== confirmPassword) {
       alert("Passwords don't match.")
       return
   }
-  else if (email.length == 0) {
-    alert("Please enter an email address.")
-    return
-  }
-  else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))
-  {
-    alert("Incorrect email format.")
-      return
-  }
-
-  else if (firstName.length == 0) {
-    alert("Please enter your first name.")
-    return
-  }
-    else if (!/^[a-z]+$/i.test(firstName))
-    {
-      alert("Incorrect format for first name. You can only use alpanumeric characters")
-        return
-    }
-  
-  else if (lastName.length == 0) {
-    alert("Please enter your last name.")
-    return
-  }
-
-  else if (!/^[a-z]+$/i.test(lastName))
-  {
-    alert("Incorrect format for last name. You can only use alpanumeric characters")
-      return
-  }
+ 
  else {
     firebase
         .auth()
@@ -81,7 +80,7 @@ export default function RegistrationScreen({ navigation }) {
                 });
         })
         .catch((error) => {
-         
+          
           if (error.code === "auth/email-already-in-use") {
             alert("That email address is already in use!")
           }
