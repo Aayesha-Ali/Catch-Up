@@ -1,36 +1,57 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { FlatList, SafeAreaView, TextInput, Text } from "react-native";
-import searchFriends from "../../components/searchFriends";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { ListItem } from "@rneui/themed";
 import styles from "./styles";
-import { queryUsersByEmail } from "../../components/searchUserQuery";
-import SearchBar from "../../components/searchBar";
+import { firebase } from "../../config";
+import queryUsersByFirstName from "../../components/queryUsersByFirstName";
+require("firebase/firestore");
 
 export default function AddFriendsScreen() {
-  const [textInput, setTextInput] = useState('');
-  const [searchUsers, setSearchUsers] = useState([]);
-  const [searchPhrase, setSearchPhrase] = useState("");
-const [clicked, setClicked] = useState(false);
+  const [otherUsers, setOtherUsers] = useState([]);
+  const timeout = React.useRef(null);
 
-  useEffect(() => {
-    console.log(textInput)
-    queryUsersByEmail(textInput)
-    .then(setSearchUsers)
-  }, [textInput])
+  const onHandlerSearchText = (searchText) => {
+    clearTimeout(timeout.current);
+    timeout.current = setTimeout(async () => {
+      console.log(`Searching for users... searchText=${searchText}`);
+      const queryResults = await queryUsersByFirstName(searchText);
+      console.log(`Result of query = ${JSON.stringify(queryResults)}`);
+      setOtherUsers(queryResults);
+    }, 150);
+  };
 
   return (
     <SafeAreaView style={styles.container}>
-       <SearchBar
-        searchPhrase={searchPhrase}
-        setSearchPhrase={setSearchPhrase}
-        clicked={clicked}
-        setClicked={setClicked}
+      <TextInput
+        placeholder="Search here..."
+        onChangeText={(searchText) => {
+          onHandlerSearchText(searchText);
+        }}
+        style={styles.searchBar}
       />
-      
+
       <FlatList
-        data={searchUsers}
-        renderItem={searchFriends}
-        keyExtractor={(item => item)}
-        />
+        data={otherUsers}
+        horizontal={false}
+        numColumns={1}
+        renderItem={({ item }) => (
+          <TouchableOpacity>
+            <Text style={styles.user}>
+              {item.firstName + " " + item.lastName}
+            </Text>
+            <ListItem
+              key={item.uid}
+              // leftAvatar={
+              //   {
+              //      source: { uri: item.profilePhotoUrl },
+              //   }
+              // }
+              title={item.firstName + " " + item.lastName}
+            />
+          </TouchableOpacity>
+        )}
+      />
     </SafeAreaView>
-  )
+  );
 }

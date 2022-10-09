@@ -9,6 +9,7 @@ import HomeScreen from "./screens/HomeScreen/HomeScreen";
 import ResetPasswordScreen from "./screens/ResetPasswordScreen/ResetPasswordScreen";
 import FriendsScreen from "./screens/FriendsScreen/FriendsScreen";
 import AddFriendsScreen from "./screens/AddFriendScreen/AddFriendsScreen";
+import ChatScreen from "./screens/ChatScreen/ChatScreen";
 
 import { decode, encode } from "base-64";
 if (!global.btoa) {
@@ -54,15 +55,24 @@ export default function App() {
       <Stack.Navigator>
         {user ? (
           <>
-           <Stack.Screen name="Home">{(props) => <HomeScreen {...props} extraData={user} />}</Stack.Screen>
-           <Stack.Screen name="My Friends List" component={FriendsScreen} />
-           <Stack.Screen name="Add Friends" component={AddFriendsScreen} />
+            <Stack.Screen name="Home">
+              {(props) => <HomeScreen {...props} extraData={user} />}
+            </Stack.Screen>
+            <Stack.Screen name="My Friends List" component={FriendsScreen} />
+            <Stack.Screen name="Add Friends" component={AddFriendsScreen} />
           </>
         ) : (
           <>
             <Stack.Screen name="Login" component={LoginScreen} />
-            <Stack.Screen name="Create Account" title="account" component={RegistrationScreen}/>
-            <Stack.Screen name="Forgot Password?" component={ResetPasswordScreen}/>
+            <Stack.Screen
+              name="Create Account"
+              title="account"
+              component={RegistrationScreen}
+            />
+            <Stack.Screen
+              name="Forgot Password?"
+              component={ResetPasswordScreen}
+            />
           </>
         )}
       </Stack.Navigator>
