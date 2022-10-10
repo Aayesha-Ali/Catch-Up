@@ -18,7 +18,7 @@ export default function AddFriendsScreen() {
       const queryResults = await queryUsersByFirstName(searchText);
       console.log(`Result of query = ${JSON.stringify(queryResults)}`);
       setOtherUsers(queryResults);
-    }, 150);
+    }, 100);
   };
 
   return (
