@@ -5,21 +5,10 @@ import { firebase } from '../../config'
 export default function HomeScreen({navigation}){
  
   const signOutUser = () => firebase.auth().signOut();
-const signoutPress= () => {
-    firebase.auth().signOut() 
-    .then(() => {
-        navigation.navigate('Login')
-    })
-    .catch(e=>{
-     console.error('Sign Out Error', e);
-    });
 
-    }
-
-    const FriendsList = () => {
+      const FriendsList = () => {
       navigation.navigate('My Friends List')
   }
-  
   return (
   
     <View>
