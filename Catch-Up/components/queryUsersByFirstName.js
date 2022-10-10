@@ -11,12 +11,14 @@ export default async function queryUsersByFirstName(searchText) {
       .where("firstName", ">=", searchText)
       .where("firstName", "<=", searchText + "\uf8ff")
       .get();
-    return querySnapshot.docs.map((doc) => {
-      return {
-        ...doc.data(),
-        id: doc.id,
-      };
-    });
+    return querySnapshot.docs
+      .map((doc) => {
+        return {
+          ...doc.data(),
+          id: doc.id,
+        };
+      })
+      .filter((user) => user.id !== currentUser.uid);
   } else {
     return [];
   }
