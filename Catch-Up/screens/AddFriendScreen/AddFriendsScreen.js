@@ -3,9 +3,7 @@ import { FlatList, SafeAreaView, TextInput, Text } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { ListItem } from "@rneui/themed";
 import styles from "./styles";
-import { firebase } from "../../config";
 import queryUsersByFirstName from "../../components/queryUsersByFirstName";
-require("firebase/firestore");
 
 export default function AddFriendsScreen() {
   const [otherUsers, setOtherUsers] = useState([]);
