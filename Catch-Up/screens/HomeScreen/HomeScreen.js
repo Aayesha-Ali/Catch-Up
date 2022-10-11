@@ -6,6 +6,7 @@ require("firebase/firestore");
 
 export default function HomeScreen({ navigation }) {
   const signOutUser = () => firebase.auth().signOut();
+
   const signoutPress = () => {
     firebase
       .auth()

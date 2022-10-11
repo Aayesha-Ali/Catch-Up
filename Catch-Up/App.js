@@ -2,6 +2,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import React, { useState, useEffect } from "react";
 import { firebase } from "./config";
+import { decode, encode } from "base-64";
 
 import LoginScreen from "./screens/LoginScreen/LoginScreen";
 import RegistrationScreen from "./screens/RegistrationScreen/RegistrationScreen";
@@ -9,9 +10,7 @@ import HomeScreen from "./screens/HomeScreen/HomeScreen";
 import ResetPasswordScreen from "./screens/ResetPasswordScreen/ResetPasswordScreen";
 import FriendsScreen from "./screens/FriendsScreen/FriendsScreen";
 import AddFriendsScreen from "./screens/AddFriendScreen/AddFriendsScreen";
-import ChatScreen from "./screens/ChatScreen/ChatScreen";
 
-import { decode, encode } from "base-64";
 if (!global.btoa) {
   global.btoa = encode;
 }
@@ -22,7 +21,8 @@ if (!global.atob) {
 const Stack = createStackNavigator();
 
 export default function App() {
-  const [loading, setLoading] = useState(true);
+  const [userLogged, setUserLogged] = useState(false);
+
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -34,34 +34,25 @@ export default function App() {
           .get()
           .then((document) => {
             const userData = document.data();
-            setLoading(false);
             setUser(userData);
           })
-          .catch((error) => {
-            setLoading(false);
-          });
+          .catch((error) => {});
       } else {
-        setLoading(false);
       }
     });
   }, []);
 
-  if (loading) {
-    return <></>;
-  }
+  useEffect(() => {
+    const authListener = firebase.auth().onAuthStateChanged((user) => {
+      setUserLogged(user ? true : false);
+    });
+    return authListener;
+  }, []);
 
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {user ? (
-          <>
-            <Stack.Screen name="Home">
-              {(props) => <HomeScreen {...props} extraData={user} />}
-            </Stack.Screen>
-            <Stack.Screen name="My Friends List" component={FriendsScreen} />
-            <Stack.Screen name="Add Friends" component={AddFriendsScreen} />
-          </>
-        ) : (
+        {userLogged == false ? (
           <>
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen
@@ -73,6 +64,14 @@ export default function App() {
               name="Forgot Password?"
               component={ResetPasswordScreen}
             />
+          </>
+        ) : (
+          <>
+            <Stack.Screen name="Home">
+              {(props) => <HomeScreen {...props} extraData={user} />}
+            </Stack.Screen>
+            <Stack.Screen name="My Friends List" component={FriendsScreen} />
+            <Stack.Screen name="Add Friends" component={AddFriendsScreen} />
           </>
         )}
       </Stack.Navigator>
