@@ -11,7 +11,6 @@ import ResetPasswordScreen from "./screens/ResetPasswordScreen/ResetPasswordScre
 import FriendsScreen from "./screens/FriendsScreen/FriendsScreen";
 import AddFriendsScreen from "./screens/AddFriendScreen/AddFriendsScreen";
 
-
 if (!global.btoa) {
   global.btoa = encode;
 }
@@ -35,14 +34,10 @@ export default function App() {
           .get()
           .then((document) => {
             const userData = document.data();
-       
             setUser(userData);
           })
-          .catch((error) => {
-         
-          });
+          .catch((error) => {});
       } else {
-  
       }
     });
   }, []);
@@ -50,33 +45,33 @@ export default function App() {
   useEffect(() => {
     const authListener = firebase.auth().onAuthStateChanged((user) => {
       setUserLogged(user ? true : false);
-     
     });
     return authListener;
   }, []);
-
- 
 
   return (
     <NavigationContainer>
       <Stack.Navigator>
         {userLogged == false ? (
-           <>
-      
-          <Stack.Screen name="Login" component={LoginScreen} />
-          <Stack.Screen name="Create Account" title="account" component={RegistrationScreen}/>
-          <Stack.Screen name="Forgot Password?" component={ResetPasswordScreen}/>
-  
+          <>
+            <Stack.Screen name="Login" component={LoginScreen} />
+            <Stack.Screen
+              name="Create Account"
+              title="account"
+              component={RegistrationScreen}
+            />
+            <Stack.Screen
+              name="Forgot Password?"
+              component={ResetPasswordScreen}
+            />
           </>
         ) : (
           <>
-          <Stack.Screen name="Home">
-            {(props) => <HomeScreen {...props} extraData={user} />}
-          </Stack.Screen>
-          <Stack.Screen name="My Friends List" component={FriendsScreen} />
-          <Stack.Screen name="Add Friends" component={AddFriendsScreen} />
-
-
+            <Stack.Screen name="Home">
+              {(props) => <HomeScreen {...props} extraData={user} />}
+            </Stack.Screen>
+            <Stack.Screen name="My Friends List" component={FriendsScreen} />
+            <Stack.Screen name="Add Friends" component={AddFriendsScreen} />
           </>
         )}
       </Stack.Navigator>
