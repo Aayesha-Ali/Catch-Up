@@ -12,9 +12,7 @@ export default function AddFriendsScreen() {
   const onHandlerSearchText = (searchText) => {
     clearTimeout(timeout.current);
     timeout.current = setTimeout(async () => {
-      console.log(`Searching for users... searchText=${searchText}`);
       const queryResults = await queryUsersByFirstName(searchText);
-      console.log(`Result of query = ${JSON.stringify(queryResults)}`);
       setOtherUsers(queryResults);
     }, 100);
   };
