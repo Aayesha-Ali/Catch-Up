@@ -5,20 +5,37 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import { firebase } from "../../config";
 import SearchBar from "../../components/searchBar";
 import List from "../../components/filter";
 import styles from "./styles";
+import { useNavigation } from "@react-navigation/native";
+import { Entypo, SimpleLineIcons } from "@expo/vector-icons";
 
-const FriendsScreen = ({ navigation }) => {
+const FriendsScreen = () => {
   const AddFriends = () => {
     navigation.navigate("Add Friends");
   };
+  const mainChat = () => {
+    navigation.navigate("Main Chat");
+  };
+
   const [searchPhrase, setSearchPhrase] = useState("");
   const [clicked, setClicked] = useState(false);
   const [data, setData] = useState([]);
   const users = firebase.firestore().collection("users");
+  const navigation = useNavigation();
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity style={{ marginRight: 10 }} onPress={mainChat}>
+          <Entypo name="chat" size={24} color="black" />
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
 
   useEffect(() => {
     const loadData = async () => {
@@ -44,7 +61,6 @@ const FriendsScreen = ({ navigation }) => {
       <TouchableOpacity style={styles.button} onPress={() => AddFriends()}>
         <Text style={styles.buttonTitle}>Add Friend</Text>
       </TouchableOpacity>
-
       <SafeAreaView style={styles.root}>
         {!clicked}
         <SearchBar

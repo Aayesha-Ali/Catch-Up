@@ -8,7 +8,11 @@ import queryUsersByFirstName from "../../components/queryUsersByFirstName";
 export default function AddFriendsScreen() {
   const [otherUsers, setOtherUsers] = useState([]);
   const timeout = React.useRef(null);
-
+  /*
+    To connect to the firebase database for add friends by searching.
+    And to display the search results.
+    Moreover, to remove the search results when the current user removes by 100 ms.
+  */
   const onHandlerSearchText = (searchText) => {
     clearTimeout(timeout.current);
     timeout.current = setTimeout(async () => {
@@ -16,7 +20,10 @@ export default function AddFriendsScreen() {
       setOtherUsers(queryResults);
     }, 100);
   };
-
+  /*
+    To search the user by first name.
+    And it shows the user's first name and last name.
+  */
   return (
     <SafeAreaView style={styles.container}>
       <TextInput
@@ -26,7 +33,6 @@ export default function AddFriendsScreen() {
         }}
         style={styles.searchBar}
       />
-
       <FlatList
         data={otherUsers}
         horizontal={false}
@@ -38,11 +44,6 @@ export default function AddFriendsScreen() {
             </Text>
             <ListItem
               key={item.uid}
-              // leftAvatar={
-              //   {
-              //      source: { uri: item.profilePhotoUrl },
-              //   }
-              // }
               title={item.firstName + " " + item.lastName}
             />
           </TouchableOpacity>
