@@ -5,33 +5,44 @@ import { firebase } from "../../config";
 require("firebase/firestore");
 
 export default function HomeScreen({ navigation }) {
-  const signOutUser = () => firebase.auth().signOut();
+	const signOutUser = () => firebase.auth().signOut();
 
-  const signoutPress = () => {
-    firebase
-      .auth()
-      .signOut()
-      .then(() => {
-        navigation.navigate("Login");
-      })
-      .catch((e) => {
-        console.error("Sign Out Error", e);
-      });
-  };
+	const signoutPress = () => {
+		firebase
+			.auth()
+			.signOut()
+			.then(() => {
+				navigation.navigate("Login");
+			})
+			.catch((e) => {
+				console.error("Sign Out Error", e);
+			});
+	};
 
-  const FriendsList = () => {
-    navigation.navigate("My Friends List");
-  };
+	const FriendsList = () => {
+		navigation.navigate("My Friends List");
+	};
 
-  return (
-    <View>
-      <TouchableOpacity style={styles.button} onPress={() => signOutUser()}>
-        <Text style={styles.buttonTitle}>Sign Out</Text>
-      </TouchableOpacity>
+	const navigateRestaurant = () => {
+		navigation.navigate("Restaurant");
+	};
 
-      <TouchableOpacity style={styles.button} onPress={() => FriendsList()}>
-        <Text style={styles.buttonTitle}>Friends List</Text>
-      </TouchableOpacity>
-    </View>
-  );
+	return (
+		<View>
+			<TouchableOpacity style={styles.button} onPress={() => signOutUser()}>
+				<Text style={styles.buttonTitle}>Sign Out</Text>
+			</TouchableOpacity>
+
+			<TouchableOpacity style={styles.button} onPress={() => FriendsList()}>
+				<Text style={styles.buttonTitle}>Friends List</Text>
+			</TouchableOpacity>
+
+			<TouchableOpacity
+				style={styles.button}
+				onPress={() => navigateRestaurant()}
+			>
+				<Text style={styles.buttonTitle}>Restaurant List</Text>
+			</TouchableOpacity>
+		</View>
+	);
 }
