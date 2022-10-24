@@ -27,16 +27,6 @@ const FriendsScreen = () => {
   const users = firebase.firestore().collection("users");
   const navigation = useNavigation();
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <TouchableOpacity style={{ marginRight: 10 }} onPress={Chat}>
-          <Entypo name="chat" size={24} color="black" />
-        </TouchableOpacity>
-      ),
-    });
-  }, [navigation]);
-
   useEffect(() => {
     const loadData = async () => {
       users.onSnapshot((querySnapshot) => {
