@@ -36,7 +36,7 @@ const FriendRequestScreen = (props) => {
         renderItem={({ item }) => (
           <View style={styles.item} >
             <Text style={styles.username}>{item.username}</Text>
-            <Text style={styles.name}>{item.firstName} {item.lastName} <Button>Accept</Button> <Button>Decline</Button> </Text>
+            <Text style={styles.name}>{item.firstName} {item.lastName} <Button title="Accept"/>  <Button title="Decline"/></Text>
 
             </View>
         )}/>
