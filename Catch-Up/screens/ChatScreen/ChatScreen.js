@@ -14,33 +14,7 @@ export default function ChatScreen({ navigation }) {
 
   const [users, setUsers] = useState(null);
 
-  const getUsers = async () => {
-    const querySanp = await firebase
-      .firestore()
-      .collection("mcokFriends")
-      .where("holder", "==", currUser.email)
-      .get();
-    const friends = querySanp.docs.map((docSnap) => docSnap.data());
-    setUsers(friends);
-    console.log(friends.email);
-  };
-
-  // const getRecentMessage = async (friendEmail) => {
-  //   const querySanp = await firebase
-  //     .firestore()
-  //     .collection("chats")
-  //     .where("sender", "==", currUser.email)
-  //     .where("receiver", "==", friendEmail)
-  //     .get();
-  //   const messages = querySanp.docs.map((docSnap) => docSnap.data());
-  //   console.log(messages);
-  //   return messages[0].message;
-  // };
-
-  useEffect(() => {
-    getUsers();
-    // getRecentMessage();
-  }, []);
+  useEffect(() => {}, []);
 
   const RenderCard = ({ item }) => {
     return (

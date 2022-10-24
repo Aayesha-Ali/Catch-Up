@@ -17,8 +17,8 @@ const FriendsScreen = () => {
   const AddFriends = () => {
     navigation.navigate("Add Friends");
   };
-  const mainChat = () => {
-    navigation.navigate("Main Chat");
+  const Chat = () => {
+    navigation.navigate("Chat Screen");
   };
 
   const [searchPhrase, setSearchPhrase] = useState("");
@@ -30,7 +30,7 @@ const FriendsScreen = () => {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <TouchableOpacity style={{ marginRight: 10 }} onPress={mainChat}>
+        <TouchableOpacity style={{ marginRight: 10 }} onPress={Chat}>
           <Entypo name="chat" size={24} color="black" />
         </TouchableOpacity>
       ),

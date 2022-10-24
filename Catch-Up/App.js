@@ -11,10 +11,7 @@ import ResetPasswordScreen from "./screens/ResetPasswordScreen/ResetPasswordScre
 import FriendsScreen from "./screens/FriendsScreen/FriendsScreen";
 import AddFriendsScreen from "./screens/AddFriendScreen/AddFriendsScreen";
 import ChatScreen from "./screens/ChatScreen/ChatScreen";
-import Chat from "./screens/ChatScreen/Chat";
-import ChatRoomScreen from "./screens/ChatScreen/ChatRoomScreen";
-import AddChatScreen from "./screens/ChatScreen/AddChatScreen";
-import MainChatScreen from "./screens/ChatScreen/MainChatScreen";
+import Chat from "./components/Chat";
 
 if (!global.btoa) {
   global.btoa = encode;
@@ -76,13 +73,10 @@ export default function App() {
             </Stack.Screen>
             <Stack.Screen name="My Friends List" component={FriendsScreen} />
             <Stack.Screen name="Add Friends" component={AddFriendsScreen} />
-            {/* <Stack.Screen name="Chat Screen">
+            <Stack.Screen name="Chat Screen">
               {(props) => <ChatScreen {...props} extraData={user} />}
-            </Stack.Screen> */}
-            {/* <Stack.Screen name="Chat" component={Chat} /> */}
-            <Stack.Screen name="AddChat" component={AddChatScreen} />
-            <Stack.Screen name="Chat" component={ChatRoomScreen} />
-            <Stack.Screen name="Main Chat" component={MainChatScreen} />
+            </Stack.Screen>
+            <Stack.Screen name="Chat" component={Chat} />
           </>
         )}
       </Stack.Navigator>
