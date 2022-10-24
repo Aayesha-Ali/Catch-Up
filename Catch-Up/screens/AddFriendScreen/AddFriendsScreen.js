@@ -34,7 +34,7 @@ export default function AddFriendsScreen(props) {
         renderItem={({ item }) => (
         
           <TouchableOpacity style={styles.button}
-          onPress={() => props.navigation.navigate("Profile", {uid: item.id})}>
+          onPress={() => props.navigation.navigate("AddFriendProfile", {uid: item.id})}>
             <Text style={styles.username}>{item.username}</Text>
             <Text style={styles.name}>
               
