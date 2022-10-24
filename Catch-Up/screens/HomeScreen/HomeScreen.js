@@ -27,6 +27,10 @@ export default function HomeScreen({ navigation }) {
 		navigation.navigate("Restaurant");
 	};
 
+  const Map = () => {
+		navigation.navigate("Map");
+	};
+
 	return (
 		<View>
 			<TouchableOpacity style={styles.button} onPress={() => signOutUser()}>
@@ -43,6 +47,11 @@ export default function HomeScreen({ navigation }) {
 			>
 				<Text style={styles.buttonTitle}>Restaurant List</Text>
 			</TouchableOpacity>
+
+      <TouchableOpacity style={styles.button} onPress={() => Map()}>
+				<Text style={styles.buttonTitle}>View Map</Text>
+			</TouchableOpacity>
+
 		</View>
 	);
 }

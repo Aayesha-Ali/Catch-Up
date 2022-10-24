@@ -13,6 +13,7 @@ import ResetPasswordScreen from "./screens/ResetPasswordScreen/ResetPasswordScre
 import FriendsScreen from "./screens/FriendsScreen/FriendsScreen";
 import AddFriendsScreen from "./screens/AddFriendScreen/AddFriendsScreen";
 import RestaurantScreen from "./screens/RestaurantScreen/RestaurantScreen";
+import Map from "./screens/MapScreen/Map";
 
 if (!global.btoa) {
 	global.btoa = encode;
@@ -77,6 +78,7 @@ export default function App() {
 							<Stack.Screen name="My Friends List" component={FriendsScreen} />
 							<Stack.Screen name="Add Friends" component={AddFriendsScreen} />
 							<Stack.Screen name="Restaurant" component={RestaurantScreen} />
+              <Stack.Screen name="Map" component={Map} />
 						</>
 					)}
 				</Stack.Navigator>
