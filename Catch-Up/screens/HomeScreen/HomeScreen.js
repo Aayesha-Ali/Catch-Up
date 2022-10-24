@@ -19,6 +19,13 @@ export default function HomeScreen({ navigation }) {
       });
   };
 
+  const Profile = () => {
+    navigation.navigate("Profile");
+  };
+  const Map = () => {
+    navigation.navigate("Map");
+  };
+
   const FriendsList = () => {
     navigation.navigate("My Friends List");
   };
@@ -42,6 +49,13 @@ export default function HomeScreen({ navigation }) {
         onPress={() => navigateRestaurant()}
       >
         <Text style={styles.buttonTitle}>Restaurant List</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.button} onPress={() => Profile()}>
+        <Text style={styles.buttonTitle}>Profile Screen</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={() => Map()}>
+        <Text style={styles.buttonTitle}>Map Screen</Text>
       </TouchableOpacity>
     </View>
   );

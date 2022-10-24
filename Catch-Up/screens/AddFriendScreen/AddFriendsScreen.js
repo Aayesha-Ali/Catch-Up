@@ -1,18 +1,19 @@
-import React, { useState } from "react";
-import { FlatList, SafeAreaView, TextInput, Text } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { ListItem } from "@rneui/themed";
+import React, { useState, useEffect } from "react";
+import {
+  FlatList,
+  SafeAreaView,
+  TextInput,
+  Text,
+  TouchableOpacity,
+} from "react-native";
 import styles from "./styles";
 import queryUsersByFirstName from "../../components/queryUsersByFirstName";
+import { firebase } from "../../config";
 
-export default function AddFriendsScreen() {
+export default function AddFriendsScreen(props) {
   const [otherUsers, setOtherUsers] = useState([]);
   const timeout = React.useRef(null);
-  /*
-    To connect to the firebase database for add friends by searching.
-    And to display the search results.
-    Moreover, to remove the search results when the current user removes by 100 ms.
-  */
+
   const onHandlerSearchText = (searchText) => {
     clearTimeout(timeout.current);
     timeout.current = setTimeout(async () => {
@@ -25,27 +26,31 @@ export default function AddFriendsScreen() {
     And it shows the user's first name and last name.
   */
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.item}>
       <TextInput
+        styles={styles.textInput}
         placeholder="Search here..."
         onChangeText={(searchText) => {
           onHandlerSearchText(searchText);
         }}
-        style={styles.searchBar}
+        style={styles.searchbar}
+        textAlign="center"
       />
       <FlatList
         data={otherUsers}
         horizontal={false}
         numColumns={1}
         renderItem={({ item }) => (
-          <TouchableOpacity>
-            <Text style={styles.user}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() =>
+              props.navigation.navigate("AddFriendProfile", { uid: item.id })
+            }
+          >
+            <Text style={styles.username}>{item.username}</Text>
+            <Text style={styles.name}>
               {item.firstName + " " + item.lastName}
             </Text>
-            <ListItem
-              key={item.uid}
-              title={item.firstName + " " + item.lastName}
-            />
           </TouchableOpacity>
         )}
       />

@@ -5,6 +5,12 @@ import { firebase } from "./config";
 import { decode, encode } from "base-64";
 import { ThemeProvider } from "styled-components/native";
 import { theme } from "./navigation/theme";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import {
+  useFonts as useOswald,
+  Oswald_400Regular,
+} from "@expo-google-fonts/oswald";
+import { useFonts as useLato, Lato_400Regular } from "@expo-google-fonts/lato";
 
 import LoginScreen from "./screens/LoginScreen/LoginScreen";
 import RegistrationScreen from "./screens/RegistrationScreen/RegistrationScreen";
@@ -14,6 +20,11 @@ import FriendsScreen from "./screens/FriendsScreen/FriendsScreen";
 import AddFriendsScreen from "./screens/AddFriendScreen/AddFriendsScreen";
 import Chat from "./components/Chat";
 import RestaurantScreen from "./screens/RestaurantScreen/RestaurantScreen";
+import ProfileScreen from "./screens/ProfileScreen/ProfileScreen";
+import MapScreen from "./screens/MapScreen/MapScreen";
+import AddFriendProfile from "./screens/AddFriendProfileScreen/AddFriendProfile";
+import friendRequestScreen from "./screens/FriendRequestScreen/FriendRequestScreen";
+import { usePushUserLocationUpdates } from "./hooks/usePushUserLocationUpdates";
 
 if (!global.btoa) {
   global.btoa = encode;
@@ -23,10 +34,16 @@ if (!global.atob) {
 }
 
 const Stack = createStackNavigator();
+const FriendsStack = createStackNavigator();
+const SettingsStack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
 export default function App() {
   const [userLogged, setUserLogged] = useState(false);
+
   const [user, setUser] = useState(null);
+
+  usePushUserLocationUpdates(user);
 
   useEffect(() => {
     const usersRef = firebase.firestore().collection("users");
@@ -37,7 +54,10 @@ export default function App() {
           .get()
           .then((document) => {
             const userData = document.data();
-            setUser(userData);
+            setUser({
+              ...userData,
+              id: user.uid,
+            });
           })
           .catch((error) => {});
       } else {
@@ -51,37 +71,70 @@ export default function App() {
     });
     return authListener;
   }, []);
+  const [oswaldLoaded] = useOswald({
+    Oswald_400Regular,
+  });
 
+  const [latoLoaded] = useLato({
+    Lato_400Regular,
+  });
+
+  if (!oswaldLoaded || !latoLoaded) {
+    return null;
+  }
   return (
     <ThemeProvider theme={theme}>
-      <NavigationContainer>
-        <Stack.Navigator>
-          {userLogged == false ? (
-            <>
-              <Stack.Screen name="Login" component={LoginScreen} />
-              <Stack.Screen
-                name="Create Account"
-                title="account"
-                component={RegistrationScreen}
-              />
-              <Stack.Screen
-                name="Forgot Password?"
-                component={ResetPasswordScreen}
-              />
-            </>
-          ) : (
-            <>
-              <Stack.Screen name="Home">
-                {(props) => <HomeScreen {...props} extraData={user} />}
-              </Stack.Screen>
-              <Stack.Screen name="My Friends List" component={FriendsScreen} />
-              <Stack.Screen name="Add Friends" component={AddFriendsScreen} />
-              <Stack.Screen name="Restaurant" component={RestaurantScreen} />
-              <Stack.Screen name="Chat" component={Chat} />
-            </>
-          )}
-        </Stack.Navigator>
-      </NavigationContainer>
+      {userLogged == false ? (
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen name="Login" component={LoginScreen} />
+            <Stack.Screen
+              name="Create Account"
+              title="account"
+              component={RegistrationScreen}
+            />
+            <Stack.Screen
+              name="Forgot Password?"
+              component={ResetPasswordScreen}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      ) : (
+        <NavigationContainer>
+          <Tab.Navigator>
+            <Tab.Screen name="Restaurant" component={RestaurantScreen} />
+            <Tab.Screen name="Friends" component={FriendsNavigator} />
+            <Tab.Screen name="Settings" component={SettingsNavigator} />
+          </Tab.Navigator>
+        </NavigationContainer>
+      )}
     </ThemeProvider>
   );
 }
+const FriendsNavigator = () => {
+  return (
+    <FriendsStack.Navigator>
+      <FriendsStack.Screen name="My Friends List" component={FriendsScreen} />
+      <FriendsStack.Screen name="Profile" component={ProfileScreen} />
+      <FriendsStack.Screen
+        name="AddFriendProfile"
+        component={AddFriendProfile}
+      />
+      <FriendsStack.Screen name="Add Friends" component={AddFriendsScreen} />
+      <FriendsStack.Screen
+        name="Friend Requests"
+        component={friendRequestScreen}
+      />
+      <FriendsStack.Screen name="Map" component={MapScreen} />
+    </FriendsStack.Navigator>
+  );
+};
+const SettingsNavigator = () => {
+  return (
+    <SettingsStack.Navigator>
+      <SettingsStack.Screen name="Home" component={HomeScreen} />
+      <SettingsStack.Screen name="Profile" component={ProfileScreen} />
+      <SettingsStack.Screen name="Map" component={MapScreen} />
+    </SettingsStack.Navigator>
+  );
+};
