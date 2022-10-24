@@ -14,6 +14,8 @@ export default function ProfileScreen(props) {
     firstName: "jiyoung",
     lastName: "do",
   };
+
+
   return (
     <SafeAreaView>
       <View>
