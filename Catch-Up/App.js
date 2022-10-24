@@ -22,6 +22,7 @@ import RestaurantScreen from "./screens/RestaurantScreen/RestaurantScreen";
 import ProfileScreen from "./screens/ProfileScreen/ProfileScreen";
 import MapScreen from "./screens/MapScreen/MapScreen";
 import AddFriendProfile from "./screens/AddFriendProfileScreen/AddFriendProfile";
+import friendRequestScreen from "./screens/FriendRequestScreen/FriendRequestScreen";
 
 if (!global.btoa) {
 	global.btoa = encode;
@@ -110,6 +111,7 @@ const FriendsNavigator = () => {
 			<FriendsStack.Screen name="Profile" component={ProfileScreen} />
 			<FriendsStack.Screen name="AddFriendProfile" component={AddFriendProfile} />
 			<FriendsStack.Screen name="Add Friends" component={AddFriendsScreen} />
+			<FriendsStack.Screen name="Friend Requests"	component={friendRequestScreen} />
 			<FriendsStack.Screen name="Map" component={MapScreen} />
 		</FriendsStack.Navigator>
 	);
