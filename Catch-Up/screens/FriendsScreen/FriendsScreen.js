@@ -18,7 +18,7 @@ const FriendsScreen = () => {
     navigation.navigate("Add Friends");
   };
   const Chat = () => {
-    navigation.navigate("Chat Screen");
+    navigation.navigate("Chat");
   };
 
   const [searchPhrase, setSearchPhrase] = useState("");
