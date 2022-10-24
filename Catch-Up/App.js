@@ -6,6 +6,12 @@ import { decode, encode } from "base-64";
 import { ThemeProvider } from "styled-components/native";
 import { theme } from "./navigation/theme";
 
+import {
+	useFonts as useOswald,
+	Oswald_400Regular,
+} from "@expo-google-fonts/oswald";
+import { useFonts as useLato, Lato_400Regular } from "@expo-google-fonts/lato";
+
 import LoginScreen from "./screens/LoginScreen/LoginScreen";
 import RegistrationScreen from "./screens/RegistrationScreen/RegistrationScreen";
 import HomeScreen from "./screens/HomeScreen/HomeScreen";
@@ -13,6 +19,7 @@ import ResetPasswordScreen from "./screens/ResetPasswordScreen/ResetPasswordScre
 import FriendsScreen from "./screens/FriendsScreen/FriendsScreen";
 import AddFriendsScreen from "./screens/AddFriendScreen/AddFriendsScreen";
 import RestaurantScreen from "./screens/RestaurantScreen/RestaurantScreen";
+import ProfileScreen from "./screens/ProfileScreen/ProfileScreen";
 
 if (!global.btoa) {
 	global.btoa = encode;
@@ -51,7 +58,17 @@ export default function App() {
 		});
 		return authListener;
 	}, []);
+	const [oswaldLoaded] = useOswald({
+		Oswald_400Regular,
+	});
 
+	const [latoLoaded] = useLato({
+		Lato_400Regular,
+	});
+
+	if (!oswaldLoaded || !latoLoaded) {
+		return null;
+	}
 	return (
 		<ThemeProvider theme={theme}>
 			<NavigationContainer>
@@ -75,6 +92,7 @@ export default function App() {
 								{(props) => <HomeScreen {...props} extraData={user} />}
 							</Stack.Screen>
 							<Stack.Screen name="My Friends List" component={FriendsScreen} />
+							<Stack.Screen name="Profile" component={ProfileScreen} />
 							<Stack.Screen name="Add Friends" component={AddFriendsScreen} />
 							<Stack.Screen name="Restaurant" component={RestaurantScreen} />
 						</>

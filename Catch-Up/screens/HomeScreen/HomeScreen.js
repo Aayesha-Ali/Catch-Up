@@ -27,6 +27,9 @@ export default function HomeScreen({ navigation }) {
 		navigation.navigate("Restaurant");
 	};
 
+	const Profile = () => {
+		navigation.navigate("Profile");
+	};
 	return (
 		<View>
 			<TouchableOpacity style={styles.button} onPress={() => signOutUser()}>
@@ -35,6 +38,10 @@ export default function HomeScreen({ navigation }) {
 
 			<TouchableOpacity style={styles.button} onPress={() => FriendsList()}>
 				<Text style={styles.buttonTitle}>Friends List</Text>
+			</TouchableOpacity>
+
+			<TouchableOpacity style={styles.button} onPress={() => Profile()}>
+				<Text style={styles.buttonTitle}>Profile Screen</Text>
 			</TouchableOpacity>
 
 			<TouchableOpacity
