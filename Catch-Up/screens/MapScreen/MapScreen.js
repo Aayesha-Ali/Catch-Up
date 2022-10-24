@@ -3,10 +3,36 @@ import MapView, { Circle, Marker } from "react-native-maps";
 import { StyleSheet, View, Dimensions } from "react-native";
 import * as Location from "expo-location";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useWindowDimensions } from "react-native";
+import { Text } from "react-native-paper";
 
-function MapScreen(props) {
+  function MapScreen(props) {
   const { navigation, route } = props;
   // const { user, users } = route.params;
+  const user = {
+    id: "QsMXA5OjmdWuawF8Afrl9gCJ2Vv1",
+    location: {
+      latitude: -36.98552,
+      longitude: 174.849,
+    },
+  };
+
+  const users = [
+    {
+      id: "<replace with actual gid>",
+      location: {
+        latitude: -36.96552,
+        longitude: 174.849,
+      },
+    },
+    {
+      id: "<replace with actual gid2>",
+      location: {
+        latitude: -36.92552,
+        longitude: 174.849,
+      },
+    },
+  ];
 
   //Used for the red pin
   const [pin, setPin] = useState({
@@ -14,13 +40,14 @@ function MapScreen(props) {
     longitude: 174.84990686604613,
   });
 
-  use
+  const window = useWindowDimensions();
 
   useEffect(() => {
     //Used to ask for permission to access current location
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
+      const canRequestLocation = status === "granted";
+      if (!canRequestLocation) {
         console.log("Permission to access location was denied");
         return;
       }
@@ -38,44 +65,39 @@ function MapScreen(props) {
 
   return (
     <SafeAreaView>
-      <View style={styles.container}>
         <MapView
-          style={styles.map}
+          style={{width: window.width, height: window.height}}
           //Used for the area to be taken to in the map
           initialRegion={{
             latitude: -36.98552070152305,
             longitude: 174.84990686604613,
-            latitudeDelta: 0.005,
-            longitudeDelta: 0.005,
+            latitudeDelta: 0.040,
+            longitudeDelta: 0.040,
           }}
           showsUserLocation={true}
         >
           <Marker
-            //Used for the current location pin
-            coordinate={pin}
-            title="You Are Here"
-            draggable={true}
-            onDragStart={(e) => {
-              //Able to drag the pin
-              console.log("Drag Start", e.nativeEvent.coordinate);
-            }}
-            onDragEnd={(e) => {
-              console.log("Drag End", e.nativeEvent.coordinate);
-
-              setPin({
-                latitude: e.nativeEvent.coordinate.latitude,
-                longitude: e.nativeEvent.coordinate.longitude,
-              });
-            }}
-          ></Marker>
+              key={user.id}
+              //Used for the current location pin
+              coordinate={user.location}
+              title="You Are Here"
+            ></Marker>
+          {users.map((user) => (
+            <Marker
+              key={user.id}
+              //Used for the current location pin
+              coordinate={user.location}
+              title={`Replace with name. User id: ${user.id}`}
+            >
+            </Marker>
+          ))}
 
           <Circle
             center={pin}
             //Used for radius
-            radius={2500}
+            radius={5000}
           />
         </MapView>
-      </View>
     </SafeAreaView>
   );
 }
@@ -86,12 +108,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
-  },
-  map: {
-    //Map view
-    width: Dimensions.get("window").width,
-    height: Dimensions.get("window").height,
-  },
+  }
 });
 
 export default MapScreen;
