@@ -1,6 +1,9 @@
 import { firebase } from "../config";
 require("firebase/firestore");
 
+/*
+  all of those codes are to connect to the firebase database for search users.
+*/
 export default async function queryUsersByFirstName(searchText) {
   const currentUser = firebase.auth().currentUser;
 

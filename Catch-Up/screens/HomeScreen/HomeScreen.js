@@ -5,57 +5,58 @@ import { firebase } from "../../config";
 require("firebase/firestore");
 
 export default function HomeScreen({ navigation }) {
-	const signOutUser = () => firebase.auth().signOut();
+  const signOutUser = () => firebase.auth().signOut();
 
-	const signoutPress = () => {
-		firebase
-			.auth()
-			.signOut()
-			.then(() => {
-				navigation.navigate("Login");
-			})
-			.catch((e) => {
-				console.error("Sign Out Error", e);
-			});
-	};
+  const signoutPress = () => {
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        navigation.navigate("Login");
+      })
+      .catch((e) => {
+        console.error("Sign Out Error", e);
+      });
+  };
 
-	const FriendsList = () => {
-		navigation.navigate("My Friends List");
-	};
+  const Profile = () => {
+    navigation.navigate("Profile");
+  };
+  const Map = () => {
+    navigation.navigate("Map");
+  };
 
-	const navigateRestaurant = () => {
-		navigation.navigate("Restaurant");
-	};
+  const FriendsList = () => {
+    navigation.navigate("My Friends List");
+  };
 
-	const Profile = () => {
-		navigation.navigate("Profile");
-	};
-	const Map = () => {
-		navigation.navigate("Map");
-	};
-	return (
-		<View>
-			<TouchableOpacity style={styles.button} onPress={() => signOutUser()}>
-				<Text style={styles.buttonTitle}>Sign Out</Text>
-			</TouchableOpacity>
+  const navigateRestaurant = () => {
+    navigation.navigate("Restaurant");
+  };
 
-			<TouchableOpacity style={styles.button} onPress={() => FriendsList()}>
-				<Text style={styles.buttonTitle}>Friends List</Text>
-			</TouchableOpacity>
+  return (
+    <View>
+      <TouchableOpacity style={styles.button} onPress={() => signOutUser()}>
+        <Text style={styles.buttonTitle}>Sign Out</Text>
+      </TouchableOpacity>
 
-			<TouchableOpacity style={styles.button} onPress={() => Profile()}>
-				<Text style={styles.buttonTitle}>Profile Screen</Text>
-			</TouchableOpacity>
-			<TouchableOpacity style={styles.button} onPress={() => Map()}>
-				<Text style={styles.buttonTitle}>Map Screen</Text>
-			</TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={() => FriendsList()}>
+        <Text style={styles.buttonTitle}>Friends List</Text>
+      </TouchableOpacity>
 
-			<TouchableOpacity
-				style={styles.button}
-				onPress={() => navigateRestaurant()}
-			>
-				<Text style={styles.buttonTitle}>Restaurant List</Text>
-			</TouchableOpacity>
-		</View>
-	);
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigateRestaurant()}
+      >
+        <Text style={styles.buttonTitle}>Restaurant List</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.button} onPress={() => Profile()}>
+        <Text style={styles.buttonTitle}>Profile Screen</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={() => Map()}>
+        <Text style={styles.buttonTitle}>Map Screen</Text>
+      </TouchableOpacity>
+    </View>
+  );
 }

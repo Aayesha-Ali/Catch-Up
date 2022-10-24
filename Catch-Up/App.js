@@ -1,6 +1,6 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { firebase } from "./config";
 import { decode, encode } from "base-64";
 import { ThemeProvider } from "styled-components/native";
@@ -18,6 +18,7 @@ import HomeScreen from "./screens/HomeScreen/HomeScreen";
 import ResetPasswordScreen from "./screens/ResetPasswordScreen/ResetPasswordScreen";
 import FriendsScreen from "./screens/FriendsScreen/FriendsScreen";
 import AddFriendsScreen from "./screens/AddFriendScreen/AddFriendsScreen";
+import Chat from "./components/Chat";
 import RestaurantScreen from "./screens/RestaurantScreen/RestaurantScreen";
 import ProfileScreen from "./screens/ProfileScreen/ProfileScreen";
 import MapScreen from "./screens/MapScreen/MapScreen";
@@ -115,9 +116,15 @@ const FriendsNavigator = () => {
     <FriendsStack.Navigator>
       <FriendsStack.Screen name="My Friends List" component={FriendsScreen} />
       <FriendsStack.Screen name="Profile" component={ProfileScreen} />
-			<FriendsStack.Screen name="AddFriendProfile" component={AddFriendProfile} />
+      <FriendsStack.Screen
+        name="AddFriendProfile"
+        component={AddFriendProfile}
+      />
       <FriendsStack.Screen name="Add Friends" component={AddFriendsScreen} />
-			<FriendsStack.Screen name="Friend Requests"	component={friendRequestScreen} />
+      <FriendsStack.Screen
+        name="Friend Requests"
+        component={friendRequestScreen}
+      />
       <FriendsStack.Screen name="Map" component={MapScreen} />
     </FriendsStack.Navigator>
   );
