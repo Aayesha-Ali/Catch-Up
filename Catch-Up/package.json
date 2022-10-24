@@ -12,6 +12,7 @@
   "dependencies": {
     "@expo-google-fonts/lato":"0.2.2",
     "@expo-google-fonts/oswald":"^0.2.2",
+    "@react-navigation/bottom-tabs": "^6.4.0",
     "@react-navigation/native": "^6.0.12",
     "@react-navigation/stack": "^6.2.3",
     "@rneui/base": "github:react-native-elements/react-native-elements#base",
