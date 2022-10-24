@@ -30,6 +30,9 @@ export default function HomeScreen({ navigation }) {
 	const Profile = () => {
 		navigation.navigate("Profile");
 	};
+	const Map = () => {
+		navigation.navigate("Map");
+	};
 	return (
 		<View>
 			<TouchableOpacity style={styles.button} onPress={() => signOutUser()}>
@@ -42,6 +45,9 @@ export default function HomeScreen({ navigation }) {
 
 			<TouchableOpacity style={styles.button} onPress={() => Profile()}>
 				<Text style={styles.buttonTitle}>Profile Screen</Text>
+			</TouchableOpacity>
+			<TouchableOpacity style={styles.button} onPress={() => Map()}>
+				<Text style={styles.buttonTitle}>Map Screen</Text>
 			</TouchableOpacity>
 
 			<TouchableOpacity

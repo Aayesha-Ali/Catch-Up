@@ -5,7 +5,7 @@ import { firebase } from "./config";
 import { decode, encode } from "base-64";
 import { ThemeProvider } from "styled-components/native";
 import { theme } from "./navigation/theme";
-
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {
 	useFonts as useOswald,
 	Oswald_400Regular,
@@ -20,6 +20,7 @@ import FriendsScreen from "./screens/FriendsScreen/FriendsScreen";
 import AddFriendsScreen from "./screens/AddFriendScreen/AddFriendsScreen";
 import RestaurantScreen from "./screens/RestaurantScreen/RestaurantScreen";
 import ProfileScreen from "./screens/ProfileScreen/ProfileScreen";
+import MapScreen from "./screens/MapScreen/MapScreen";
 
 if (!global.btoa) {
 	global.btoa = encode;
@@ -29,6 +30,9 @@ if (!global.atob) {
 }
 
 const Stack = createStackNavigator();
+const FriendsStack = createStackNavigator();
+const SettingsStack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
 export default function App() {
 	const [userLogged, setUserLogged] = useState(false);
@@ -71,34 +75,49 @@ export default function App() {
 	}
 	return (
 		<ThemeProvider theme={theme}>
-			<NavigationContainer>
-				<Stack.Navigator>
-					{userLogged == false ? (
-						<>
-							<Stack.Screen name="Login" component={LoginScreen} />
-							<Stack.Screen
-								name="Create Account"
-								title="account"
-								component={RegistrationScreen}
-							/>
-							<Stack.Screen
-								name="Forgot Password?"
-								component={ResetPasswordScreen}
-							/>
-						</>
-					) : (
-						<>
-							<Stack.Screen name="Home">
-								{(props) => <HomeScreen {...props} extraData={user} />}
-							</Stack.Screen>
-							<Stack.Screen name="My Friends List" component={FriendsScreen} />
-							<Stack.Screen name="Profile" component={ProfileScreen} />
-							<Stack.Screen name="Add Friends" component={AddFriendsScreen} />
-							<Stack.Screen name="Restaurant" component={RestaurantScreen} />
-						</>
-					)}
-				</Stack.Navigator>
-			</NavigationContainer>
+			{userLogged == false ? (
+				<NavigationContainer>
+					<Stack.Navigator>
+						<Stack.Screen name="Login" component={LoginScreen} />
+						<Stack.Screen
+							name="Create Account"
+							title="account"
+							component={RegistrationScreen}
+						/>
+						<Stack.Screen
+							name="Forgot Password?"
+							component={ResetPasswordScreen}
+						/>
+					</Stack.Navigator>
+				</NavigationContainer>
+			) : (
+				<NavigationContainer>
+					<Tab.Navigator>
+						<Tab.Screen name="Restaurant" component={RestaurantScreen} />
+						<Tab.Screen name="Friends" component={FriendsNavigator} />
+						<Tab.Screen name="Settings" component={SettingsNavigator} />
+					</Tab.Navigator>
+				</NavigationContainer>
+			)}
 		</ThemeProvider>
 	);
 }
+const FriendsNavigator = () => {
+	return (
+		<FriendsStack.Navigator>
+			<FriendsStack.Screen name="My Friends List" component={FriendsScreen} />
+			<FriendsStack.Screen name="Profile" component={ProfileScreen} />
+			<FriendsStack.Screen name="Add Friends" component={AddFriendsScreen} />
+			<FriendsStack.Screen name="Map" component={MapScreen} />
+		</FriendsStack.Navigator>
+	);
+};
+const SettingsNavigator = () => {
+	return (
+		<SettingsStack.Navigator>
+			<SettingsStack.Screen name="Home" component={HomeScreen} />
+			<SettingsStack.Screen name="Profile" component={ProfileScreen} />
+			<SettingsStack.Screen name="Map" component={MapScreen} />
+		</SettingsStack.Navigator>
+	);
+};
