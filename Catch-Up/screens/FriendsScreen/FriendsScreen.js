@@ -1,10 +1,9 @@
-import { Text, View, StyleSheet, TouchableOpacity, SafeAreaView} from 'react-native'
+import { Text, View, StyleSheet, TouchableOpacity, SafeAreaView, FlatList} from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { firebase } from '../../config';
 import styles from '../LoginScreen/styles';
 import SearchBar from '../../components/searchBar';
-import List from '../../components/filter';
-const FriendsScreen = ({navigation}) => {
+const FriendsScreen = (props) => {
 
   const AddFriends = () => {
     navigation.navigate('Add Friends')
@@ -62,6 +61,7 @@ const users = firebase.firestore().collection('users');
   const displayFriend = data.filter((user) => friends.includes(user.id));
   console.log(displayFriend);
  
+  
   return (
     <View>
 
@@ -88,12 +88,20 @@ const users = firebase.firestore().collection('users');
       />
       </SafeAreaView>
 
-            <List
-            searchPhrase={searchPhrase}
-            data={displayFriend}
-            setClicked={setClicked}
-        
-          />
+      <FlatList
+        data={displayFriend}
+        numColumns={1}
+        renderItem={({ item }) => (
+          <TouchableOpacity 
+          onPress={() => props.navigation.navigate("Profile", {uid: item.id})}>
+          
+          <View style={{margin: 30, borderBottomWidth: 2, borderBottomColor: "lightgrey", justifyContent: "center", alignItems: "center"}} >
+            <Text style={{fontSize: 16, marginBottom: 5, fontStyle: "italic",}}>{item.username}</Text>
+            <Text style={{fontSize: 16, marginBottom: 5, fontStyle: "italic"}}>{item.firstName} {item.lastName} </Text>
+
+            </View>
+            </TouchableOpacity>
+        )}/>
 
     </View>
   )
