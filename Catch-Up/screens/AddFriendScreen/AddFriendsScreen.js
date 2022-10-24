@@ -1,14 +1,13 @@
-import React, { useState } from "react";
-import { FlatList, SafeAreaView, TextInput, Text } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { ListItem } from "@rneui/themed";
+import React, { useState, useEffect} from "react";
+import { FlatList, SafeAreaView, TextInput, Text, TouchableOpacity} from "react-native";
 import styles from "./styles";
 import queryUsersByFirstName from "../../components/queryUsersByFirstName";
+import { firebase } from "../../config";
 
-export default function AddFriendsScreen() {
+export default function AddFriendsScreen(props) {
   const [otherUsers, setOtherUsers] = useState([]);
   const timeout = React.useRef(null);
-
+  
   const onHandlerSearchText = (searchText) => {
     clearTimeout(timeout.current);
     timeout.current = setTimeout(async () => {
@@ -18,36 +17,32 @@ export default function AddFriendsScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <TextInput
+    <SafeAreaView style={styles.item}>
+      <TextInput  styles={styles.textInput}
         placeholder="Search here..."
         onChangeText={(searchText) => {
           onHandlerSearchText(searchText);
         }}
-        style={styles.searchBar}
+        style={styles.searchbar}
+      textAlign="center"
       />
 
       <FlatList
-        data={otherUsers}
+        data={otherUsers}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
         horizontal={false}
         numColumns={1}
         renderItem={({ item }) => (
-          <TouchableOpacity>
-            <Text style={styles.user}>
-              {item.firstName + " " + item.lastName}
-            </Text>
-            <ListItem
-              key={item.uid}
-              // leftAvatar={
-              //   {
-              //      source: { uri: item.profilePhotoUrl },
-              //   }
-              // }
-              title={item.firstName + " " + item.lastName}
-            />
-          </TouchableOpacity>
+        
+          <TouchableOpacity style={styles.button}
+          onPress={() => props.navigation.navigate("Profile", {uid: item.id})}>
+            <Text style={styles.username}>{item.username}</Text>
+            <Text style={styles.name}>
+              
+              {item.firstName + " " + item.lastName}    
+              </Text>     
+                </TouchableOpacity>
         )}
       />
     </SafeAreaView>
   );
-}
+        }
