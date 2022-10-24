@@ -28,6 +28,39 @@ const FriendRequestScreen = (props) => {
   const pendingUsers = users.filter((user) => data.includes(user.id));
  console.log(pendingUsers);
 
+ const acceptFriendRequest = async(id) => {
+
+  firebase.firestore().collection('users')
+  .doc(firebase.auth().currentUser.uid)
+  .collection('friends')
+  .doc(id)
+  .set({
+    isFriend: true,
+  });
+
+  firebase.firestore().collection('users')
+  .doc(id)
+  .collection('friends')
+  .doc(firebase.auth().currentUser.uid)
+  .set({
+    isFriend: true,
+  });
+
+  firebase.firestore().collection('users')
+  .doc(firebase.auth().currentUser.uid)
+  .collection('pendingFriendRequests')
+  .doc(id)
+  .delete()
+}
+
+const deleteFriendRequest = async(id) => {
+  firebase.firestore().collection('users')
+ .doc(firebase.auth().currentUser.uid)
+ .collection('pendingFriendRequests')
+ .doc(id)
+ .delete()
+}
+
   return (
     <View>
       <FlatList
@@ -36,7 +69,7 @@ const FriendRequestScreen = (props) => {
         renderItem={({ item }) => (
           <View style={styles.item} >
             <Text style={styles.username}>{item.username}</Text>
-            <Text style={styles.name}>{item.firstName} {item.lastName} <Button title="Accept"/>  <Button title="Decline"/></Text>
+            <Text style={styles.name}>{item.firstName} {item.lastName} <Button title= "Accept" onPress={() => acceptFriendRequest(item.id)}/>  <Button title="Decline" onPress={() => deleteFriendRequest(item.id)}/></Text>
 
             </View>
         )}/>
