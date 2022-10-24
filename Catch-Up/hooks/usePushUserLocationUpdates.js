@@ -22,6 +22,9 @@ export const usePushUserLocationUpdates = (user) => {
 
   // Keep sending the current user's location to firebase
   useEffect(() => {
+    // first call
+    sendLocationToFirebase();
+    
     const timer = setInterval(sendLocationToFirebase, SendFrequencyInMillis);
     return () => clearInterval(timer);
   }, []);
