@@ -19,6 +19,7 @@ import ResetPasswordScreen from "./screens/ResetPasswordScreen/ResetPasswordScre
 import FriendsScreen from "./screens/FriendsScreen/FriendsScreen";
 import AddFriendsScreen from "./screens/AddFriendScreen/AddFriendsScreen";
 import RestaurantScreen from "./screens/RestaurantScreen/RestaurantScreen";
+import ProfileScreen from "./screens/ProfileScreen/ProfileScreen";
 
 if (!global.btoa) {
 	global.btoa = encode;
@@ -91,6 +92,7 @@ export default function App() {
 								{(props) => <HomeScreen {...props} extraData={user} />}
 							</Stack.Screen>
 							<Stack.Screen name="My Friends List" component={FriendsScreen} />
+							<Stack.Screen name="Profile" component={ProfileScreen} />
 							<Stack.Screen name="Add Friends" component={AddFriendsScreen} />
 							<Stack.Screen name="Restaurant" component={RestaurantScreen} />
 						</>
