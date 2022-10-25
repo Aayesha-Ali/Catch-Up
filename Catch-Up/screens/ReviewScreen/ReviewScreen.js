@@ -22,9 +22,12 @@ const getReviewsForRestaurant = (restaurantId) => {
 }
 const ReviewScreen = (props) => {
 
-    //const { restaurantId } = props;
-    const restaurantId = 123456;
-    const reviews = getReviewsForRestaurant(restaurantId);
+    //const { restaurant } = props;
+    const restaurant = {
+        reviews: getReviewsForRestaurant()
+
+    };
+    const reviews = restaurant.reviews
 
     //probs 로 ID를 받는다.
 
@@ -33,7 +36,7 @@ const ReviewScreen = (props) => {
             <ScrollView>
                 <View style={styles.container}>
                     <View>
-                        {reviews.map((review) => <ReviewCard review={review}></ReviewCard>)}
+                        {reviews.map((review) => <ReviewCard key={review.location} review={review}></ReviewCard>)}
                         {/* <Image style={styles.image} source={{ uri: 'https://i.ibb.co/Jdz0XJB/review1.png' }} /> */}
                     </View>
                 </View>
