@@ -12,13 +12,13 @@ import styles from "../LoginScreen/styles";
 import SearchBar from "../../components/searchBar";
 const FriendsScreen = (props) => {
   const AddFriends = () => {
-    navigation.navigate("Add Friends");
-  };
+    props.navigation.navigate('Add Friends')
+}
 
   const FriendRequests = () => {
     console.log(data);
-    navigation.navigate("Friend Requests", { users: data });
-  };
+    props.navigation.navigate('Friend Requests', {users: data}) 
+}
 
   const [searchPhrase, setSearchPhrase] = useState("");
   const [clicked, setClicked] = useState(false);
@@ -62,60 +62,36 @@ const FriendsScreen = (props) => {
 
   const displayFriend = data.filter((user) => friends.includes(user.id));
   console.log(displayFriend);
-
+ 
   return (
     <View>
-      <TouchableOpacity style={styles.button} onPress={() => AddFriends()}>
-        <Text style={styles.buttonTitle}>Add Friend</Text>
+
+<TouchableOpacity
+          style={styles.button}
+          onPress={() => AddFriends()}>
+          <Text style={styles.buttonTitle}>Add Friend</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.button} onPress={() => FriendRequests()}>
         <Text style={styles.buttonTitle}>Friend Requests</Text>
       </TouchableOpacity>
 
-      <SafeAreaView style={styles.root}>
-        {!clicked}
-        <SearchBar
-          searchPhrase={searchPhrase}
-          setSearchPhrase={setSearchPhrase}
-          clicked={clicked}
-          setClicked={setClicked}
-        />
-      </SafeAreaView>
-
       <FlatList
         data={displayFriend}
         numColumns={1}
         renderItem={({ item }) => (
-          <TouchableOpacity
-            onPress={() =>
-              // props.navigation.navigate("Profile", { uid: item.id })
-              props.navigation.navigate("Profile", { user: item })
-            }
-          >
-            <View
-              style={{
-                margin: 30,
-                borderBottomWidth: 2,
-                borderBottomColor: "lightgrey",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Text
-                style={{ fontSize: 16, marginBottom: 5, fontStyle: "italic" }}
-              >
-                {item.username}
-              </Text>
-              <Text
-                style={{ fontSize: 16, marginBottom: 5, fontStyle: "italic" }}
-              >
-                {item.firstName} {item.lastName}{" "}
-              </Text>
+          <TouchableOpacity 
+          onPress={() => props.navigation.navigate("Profile", {user: item})}>
+          
+          <View style={{margin: 30, borderBottomWidth: 2, borderBottomColor: "lightgrey", justifyContent: "center", alignItems: "center"}} >
+            <Text style={{fontSize: 20, marginBottom: 5, fontStyle: "bold",}}>{item.username}</Text>
+            <Text style={{fontSize: 16, marginBottom: 5, fontStyle: "italic"}}>{item.firstName} {item.lastName} </Text>
+
             </View>
-          </TouchableOpacity>
-        )}
-      />
+            </TouchableOpacity>
+        )}/>
+
+
     </View>
   );
 };

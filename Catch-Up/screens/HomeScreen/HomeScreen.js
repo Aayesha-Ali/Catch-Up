@@ -20,7 +20,7 @@ export default function HomeScreen({ navigation }) {
   };
 
   const Profile = () => {
-    navigation.navigate("Profile");
+    navigation.navigate("My Profile");
   };
   const Map = () => {
     navigation.navigate("Map");
@@ -32,6 +32,10 @@ export default function HomeScreen({ navigation }) {
 
   const navigateRestaurant = () => {
     navigation.navigate("Restaurant");
+  };
+
+  const navigateReview= () => {
+    navigation.navigate("Review");
   };
 
   return (
@@ -54,8 +58,13 @@ export default function HomeScreen({ navigation }) {
       <TouchableOpacity style={styles.button} onPress={() => Profile()}>
         <Text style={styles.buttonTitle}>Profile Screen</Text>
       </TouchableOpacity>
+
       <TouchableOpacity style={styles.button} onPress={() => Map()}>
         <Text style={styles.buttonTitle}>Map Screen</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.button} onPress={() => navigateReview()}>
+        <Text style={styles.buttonTitle}>Review Screen</Text>
       </TouchableOpacity>
     </View>
   );

@@ -1,4 +1,4 @@
-import { Text, View, Button } from "react-native";
+import { Text, View, Button, Alert } from "react-native";
 import React, { useState, useEffect } from "react";
 import { firebase } from "../../config";
 
@@ -17,7 +17,12 @@ function AddFriendProfile(props) {
       .doc(firebase.auth().currentUser.uid)
       .set({
         isFriend: true,
-      });
+      })
+      .then(() => {
+        console.log("Friend Request Sent");
+        Alert.alert("Friend Request Sent");
+      })
+
   };
 
   const cancelFriendRequest = () => {

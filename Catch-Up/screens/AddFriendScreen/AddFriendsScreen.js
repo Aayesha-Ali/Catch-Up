@@ -5,10 +5,10 @@ import {
   TextInput,
   Text,
   TouchableOpacity,
+  View,
 } from "react-native";
 import styles from "./styles";
 import queryUsersByFirstName from "../../components/queryUsersByFirstName";
-import { firebase } from "../../config";
 
 export default function AddFriendsScreen(props) {
   const [otherUsers, setOtherUsers] = useState([]);
@@ -36,6 +36,7 @@ export default function AddFriendsScreen(props) {
         style={styles.searchbar}
         textAlign="center"
       />
+     
       <FlatList
         data={otherUsers}
         horizontal={false}
@@ -47,10 +48,10 @@ export default function AddFriendsScreen(props) {
               props.navigation.navigate("AddFriendProfile", { uid: item.id })
             }
           >
-            <Text style={styles.username}>{item.username}</Text>
-            <Text style={styles.name}>
-              {item.firstName + " " + item.lastName}
-            </Text>
+            <View style={{margin: 30, borderBottomWidth: 2, borderBottomColor: "lightgrey", justifyContent: "center", alignItems: "center"}} >
+            <Text style={{fontSize: 20, marginBottom: 5, fontStyle: "bold",}}>{item.username}</Text>
+            <Text style={{fontSize: 16, marginBottom: 5, fontStyle: "italic"}}>{item.firstName} {item.lastName} </Text>
+            </View>
           </TouchableOpacity>
         )}
       />

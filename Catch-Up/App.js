@@ -25,6 +25,8 @@ import MapScreen from "./screens/MapScreen/MapScreen";
 import AddFriendProfile from "./screens/AddFriendProfileScreen/AddFriendProfile";
 import friendRequestScreen from "./screens/FriendRequestScreen/FriendRequestScreen";
 import { usePushUserLocationUpdates } from "./hooks/usePushUserLocationUpdates";
+import ReviewScreen from "./screens/ReviewScreen/ReviewScreen";
+import UserProfileScreen from "./screens/UserProfileScreen/UserProfileScreen";
 
 if (!global.btoa) {
   global.btoa = encode;
@@ -134,8 +136,9 @@ const SettingsNavigator = () => {
   return (
     <SettingsStack.Navigator>
       <SettingsStack.Screen name="Home" component={HomeScreen} />
-      <SettingsStack.Screen name="Profile" component={ProfileScreen} />
+      <SettingsStack.Screen name="My Profile" component={UserProfileScreen} />
       <SettingsStack.Screen name="Map" component={MapScreen} />
+      <SettingsStack.Screen name="Review" component={ReviewScreen} />
     </SettingsStack.Navigator>
   );
 };

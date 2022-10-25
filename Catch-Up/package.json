@@ -25,6 +25,7 @@
     "expo": "~46.0.8",
     "expo-location": "^14.3.0",
     "expo-status-bar": "~1.4.0",
+    "faker-js": "^1.0.0",
     "firebase": "^9.6.11",
     "ngrok": "^4.3.3",
     "object-hash": "^3.0.0",
@@ -44,6 +45,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
+    "@faker-js/faker": "^7.6.0",
     "react-native-debugger-open": "^0.3.25"
   },
   "private": true
