@@ -1,10 +1,16 @@
-import { Text, View, StyleSheet, TouchableOpacity, SafeAreaView, FlatList} from 'react-native'
-import React, { useState, useEffect } from 'react'
-import { firebase } from '../../config';
-import styles from '../LoginScreen/styles';
-import SearchBar from '../../components/searchBar';
+import {
+  Text,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  SafeAreaView,
+  FlatList,
+} from "react-native";
+import React, { useState, useEffect } from "react";
+import { firebase } from "../../config";
+import styles from "../LoginScreen/styles";
+import SearchBar from "../../components/searchBar";
 const FriendsScreen = (props) => {
-
   const AddFriends = () => {
     props.navigation.navigate('Add Friends')
 }
@@ -14,48 +20,44 @@ const FriendsScreen = (props) => {
     props.navigation.navigate('Friend Requests', {users: data}) 
 }
 
-const [searchPhrase, setSearchPhrase] = useState("");
-const [clicked, setClicked] = useState(false);
-const [ data, setData ] = useState([]);
-const [friends, setFriends] = useState([]);
-const users = firebase.firestore().collection('users');
+  const [searchPhrase, setSearchPhrase] = useState("");
+  const [clicked, setClicked] = useState(false);
+  const [data, setData] = useState([]);
+  const [friends, setFriends] = useState([]);
+  const users = firebase.firestore().collection("users");
 
   useEffect(() => {
     const loadData = async () => {
-    users.onSnapshot(
-      querySnapshot => {
-      const data = [];
-      querySnapshot.forEach(doc => {
-        const { username, firstName, lastName } = doc.data();
-        data.push({
-          id: doc.id,
-          username,
-          firstName,
-          lastName,
+      users.onSnapshot((querySnapshot) => {
+        const data = [];
+        querySnapshot.forEach((doc) => {
+          const { username, firstName, lastName } = doc.data();
+          data.push({
+            id: doc.id,
+            username,
+            firstName,
+            lastName,
+          });
         });
+        setData(data);
       });
-      setData(data);
-    }
-    )
-  };
-  loadData();
+    };
+    loadData();
   }, []);
 
   useEffect(() => {
     firebase
-    .firestore()
-    .collection('users')
-    .doc(firebase.auth().currentUser.uid)
-    .collection('friends')
-    .onSnapshot((querySnapshot) => {
-      const friends = [];
-      querySnapshot.forEach((doc) => {
-        friends.push(
-          doc.id,
-        );
+      .firestore()
+      .collection("users")
+      .doc(firebase.auth().currentUser.uid)
+      .collection("friends")
+      .onSnapshot((querySnapshot) => {
+        const friends = [];
+        querySnapshot.forEach((doc) => {
+          friends.push(doc.id);
+        });
+        setFriends(friends);
       });
-      setFriends(friends);
-    });
   }, []);
 
   const displayFriend = data.filter((user) => friends.includes(user.id));
@@ -70,10 +72,8 @@ const users = firebase.firestore().collection('users');
           <Text style={styles.buttonTitle}>Add Friend</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity
-          style={styles.button}
-          onPress={() => FriendRequests()}>
-          <Text style={styles.buttonTitle}>Friend Requests</Text>
+      <TouchableOpacity style={styles.button} onPress={() => FriendRequests()}>
+        <Text style={styles.buttonTitle}>Friend Requests</Text>
       </TouchableOpacity>
 
       <FlatList
@@ -81,7 +81,7 @@ const users = firebase.firestore().collection('users');
         numColumns={1}
         renderItem={({ item }) => (
           <TouchableOpacity 
-          onPress={() => props.navigation.navigate("Profile", {uid: item.id})}>
+          onPress={() => props.navigation.navigate("Profile", {user: item})}>
           
           <View style={{margin: 30, borderBottomWidth: 2, borderBottomColor: "lightgrey", justifyContent: "center", alignItems: "center"}} >
             <Text style={{fontSize: 20, marginBottom: 5, fontStyle: "bold",}}>{item.username}</Text>
@@ -93,7 +93,6 @@ const users = firebase.firestore().collection('users');
 
 
     </View>
-  )
-      }
-export default FriendsScreen
-
+  );
+};
+export default FriendsScreen;

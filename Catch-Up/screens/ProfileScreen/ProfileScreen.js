@@ -10,8 +10,8 @@ import {
 import { firebase } from "../../config";
 
 export default function ProfileScreen(props) {
-  //const user = props.route.params.user
-  const [user, setUser] = useState([]);
+  const user = props.route.params.user;
+  // const [user, setUser] = useState([]);
 
   const removeFriend = () => {
     firebase
@@ -95,7 +95,7 @@ export default function ProfileScreen(props) {
         </View>
         <Button
           title="CHAT"
-          onPress={() => Alert.alert("you can chat to your friend")}
+          onPress={() => props.navigation.navigate("Chat", { user })}
         />
         <Button
           title="MAP"

@@ -6,7 +6,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useWindowDimensions } from "react-native";
 import { Text } from "react-native-paper";
 
-  function MapScreen(props) {
+function MapScreen(props) {
   const { navigation, route } = props;
   // const { user, users } = route.params;
   const user = {
@@ -65,39 +65,38 @@ import { Text } from "react-native-paper";
 
   return (
     <SafeAreaView>
-        <MapView
-          style={{width: window.width, height: window.height}}
-          //Used for the area to be taken to in the map
-          initialRegion={{
-            latitude: -36.98552070152305,
-            longitude: 174.84990686604613,
-            latitudeDelta: 0.040,
-            longitudeDelta: 0.040,
-          }}
-          showsUserLocation={true}
-        >
+      <MapView
+        style={{ width: window.width, height: window.height }}
+        //Used for the area to be taken to in the map
+        initialRegion={{
+          latitude: -36.98552070152305,
+          longitude: 174.84990686604613,
+          latitudeDelta: 0.04,
+          longitudeDelta: 0.04,
+        }}
+        showsUserLocation={true}
+      >
+        <Marker
+          key={user.id}
+          //Used for the current location pin
+          coordinate={user.location}
+          title="You Are Here"
+        ></Marker>
+        {users.map((user) => (
           <Marker
-              key={user.id}
-              //Used for the current location pin
-              coordinate={user.location}
-              title="You Are Here"
-            ></Marker>
-          {users.map((user) => (
-            <Marker
-              key={user.id}
-              //Used for the current location pin
-              coordinate={user.location}
-              title={`Replace with name. User id: ${user.id}`}
-            >
-            </Marker>
-          ))}
+            key={user.id}
+            //Used for the current location pin
+            coordinate={user.location}
+            title={`Replace with name. User id: ${user.id}`}
+          ></Marker>
+        ))}
 
-          <Circle
-            center={pin}
-            //Used for radius
-            radius={5000}
-          />
-        </MapView>
+        <Circle
+          center={pin}
+          //Used for radius
+          radius={5000}
+        />
+      </MapView>
     </SafeAreaView>
   );
 }
@@ -108,7 +107,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
-  }
+  },
 });
 
 export default MapScreen;

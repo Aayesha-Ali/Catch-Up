@@ -28,6 +28,7 @@
     "faker-js": "^1.0.0",
     "firebase": "^9.6.11",
     "ngrok": "^4.3.3",
+    "object-hash": "^3.0.0",
     "react": "18.0.0",
     "react-native": "0.69.6",
     "react-native-atoz-list": "^1.0.5",
