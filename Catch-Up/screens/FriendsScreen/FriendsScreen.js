@@ -61,11 +61,9 @@ const users = firebase.firestore().collection('users');
   const displayFriend = data.filter((user) => friends.includes(user.id));
   console.log(displayFriend);
  
-  
   return (
     <View>
 
-      
 <TouchableOpacity
           style={styles.button}
           onPress={() => AddFriends()}>
@@ -78,16 +76,6 @@ const users = firebase.firestore().collection('users');
           <Text style={styles.buttonTitle}>Friend Requests</Text>
       </TouchableOpacity>
 
-      <SafeAreaView style={styles.root}>
-      {!clicked}
-      <SearchBar
-        searchPhrase={searchPhrase}
-        setSearchPhrase={setSearchPhrase}
-        clicked={clicked}
-        setClicked={setClicked}
-      />
-      </SafeAreaView>
-
       <FlatList
         data={displayFriend}
         numColumns={1}
@@ -96,12 +84,13 @@ const users = firebase.firestore().collection('users');
           onPress={() => props.navigation.navigate("Profile", {uid: item.id})}>
           
           <View style={{margin: 30, borderBottomWidth: 2, borderBottomColor: "lightgrey", justifyContent: "center", alignItems: "center"}} >
-            <Text style={{fontSize: 16, marginBottom: 5, fontStyle: "italic",}}>{item.username}</Text>
+            <Text style={{fontSize: 20, marginBottom: 5, fontStyle: "bold",}}>{item.username}</Text>
             <Text style={{fontSize: 16, marginBottom: 5, fontStyle: "italic"}}>{item.firstName} {item.lastName} </Text>
 
             </View>
             </TouchableOpacity>
         )}/>
+
 
     </View>
   )
