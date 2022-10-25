@@ -6,12 +6,12 @@ import SearchBar from '../../components/searchBar';
 const FriendsScreen = (props) => {
 
   const AddFriends = () => {
-    navigation.navigate('Add Friends')
+    props.navigation.navigate('Add Friends')
 }
 
   const FriendRequests = () => {
     console.log(data);
-    navigation.navigate('Friend Requests', {users: data}) 
+    props.navigation.navigate('Friend Requests', {users: data}) 
 }
 
 const [searchPhrase, setSearchPhrase] = useState("");
