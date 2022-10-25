@@ -1,33 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { SafeAreaView, Text, View, StyleSheet, Image, ScrollView } from 'react-native';
 import { faker } from '@faker-js/faker';
+import { firebase } from "../../config";
 
-
-const getReviewsForRestaurant = (restaurantId) => {
-
-    const reviews1 = [];
-    for (let i = 0; i < 10; i++) {
-        const review = {
-            userName: faker.name.fullName(),
-            location: faker.address.streetAddress(),
-            reviewText: faker.lorem.paragraph(),
-            userLogoUrl: faker.image.avatar(),
-            foodImageUrl: faker.image.food(width = 640, height = 480)
-        }
-
-        reviews1.push(review);
-
-    }
-    return reviews1
-}
 const ReviewScreen = (props) => {
 
     //const { restaurant } = props;
     const restaurant = {
-        reviews: getReviewsForRestaurant()
-
+        reviews: []
     };
-    const reviews = restaurant.reviews
+    
+    const reviews = restaurant.reviews;
 
     //probs 로 ID를 받는다.
 
