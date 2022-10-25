@@ -20,7 +20,7 @@ export default function HomeScreen({ navigation }) {
   };
 
   const Profile = () => {
-    navigation.navigate("Profile");
+    navigation.navigate("My Profile");
   };
   const Map = () => {
     navigation.navigate("Map");
