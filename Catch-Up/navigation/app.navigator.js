@@ -4,9 +4,12 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import { Text } from "react-native";
 
-import { SafeArea } from "../../components/utility/safe-area.component";
+import { SafeArea } from "../components/utils/SafeArea";
 
-import { RestaurantsNavigator } from "./restaurants.navigator";
+import { RestaurantsNavigator } from "./retaurants.navigation";
+import { FriendsNavigator } from "./friends.navigator";
+
+import HomeScreen from "../screens/HomeScreen/HomeScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -15,17 +18,6 @@ const TAB_ICON = {
 	Settings: "md-settings",
 	Friends: "md-people",
 };
-
-const Settings = () => (
-	<SafeArea>
-		<Text>Settings</Text>
-	</SafeArea>
-);
-const Friends = () => (
-	<SafeArea>
-		<Text>Friends</Text>
-	</SafeArea>
-);
 
 const createScreenOptions = ({ route }) => {
 	const iconName = TAB_ICON[route.name];
@@ -46,8 +38,8 @@ export const AppNavigator = () => (
 			}}
 		>
 			<Tab.Screen name="Restaurants" component={RestaurantsNavigator} />
-			<Tab.Screen name="Friends" component={FriendsScreen} />
-			<Tab.Screen name="Settings" component={SettingsScreen} />
+			<Tab.Screen name="Friends" component={FriendsNavigator} />
+			<Tab.Screen name="Settings" component={HomeScreen} />
 		</Tab.Navigator>
 	</NavigationContainer>
 );

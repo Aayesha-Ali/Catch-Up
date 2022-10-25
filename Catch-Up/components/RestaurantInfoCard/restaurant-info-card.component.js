@@ -41,7 +41,7 @@ const RestaurantInfoCard = ({ restaurant }) => {
 				<RestaurantCardCover
 					key={name}
 					source={{
-						uri: "https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg",
+						uri: photos[0],
 					}}
 				/>
 			</View>

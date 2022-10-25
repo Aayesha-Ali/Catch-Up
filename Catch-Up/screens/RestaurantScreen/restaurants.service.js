@@ -27,8 +27,3 @@ export const restaurantsTransform = ({ results = [] }) => {
 
 	return camelize(mappedResults);
 };
-
-export const getRestaurants = (location) => {
-	const mock = mocks[location];
-	return restaurantsTransform(mock);
-};
