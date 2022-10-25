@@ -28,13 +28,6 @@ export default function Chat(props) {
   // transform react-gifted-chats' messages
   const loadMessages = async () => {
     const messages_snapshot = await db.doc(chatId).get();
-
-    console.log("1-------------");
-    console.log(currentUser);
-    console.log("2-------------");
-    console.log(otherUser);
-    console.log("-------------");
-
     if (messages_snapshot.exists) {
       const _messages = messages_snapshot.data().messages.map((message) => {
         return {
@@ -51,33 +44,33 @@ export default function Chat(props) {
         messages: [],
       });
     }
-  };
 
-  useEffect(() => {
-    loadMessages();
-    db.doc(chatId).onSnapshot(
+    const observer = db.doc(chatId).onSnapshot(
       (docSnapshot) => {
-        loadMessages();
-        // if (typeof docSnapshot.data() === "undefined") {
-        //   const _messages = docSnapshot.data().messages.map((message) => {
-        //     return {
-        //       _id: message.id,
-        //       createdAt: message.sent_at.toDate(),
-        //       text: message.message,
-        //       user: currentUser._id === message.user ? currentUser : otherUser,
-        //     };
-        //   });
-        //   _messages.sort((a, b) => b.createdAt - a.createdAt);
-        //   setMessages(_messages);
-        //   console.log(`Received doc snapshot: ${docSnapshot.data()}`);
-        // } else {
-        //   console.log("docSnapshot.data()");
-        // }
+        if (docSnapshot.exists) {
+          const _messages = docSnapshot.data().messages.map((message) => {
+            return {
+              _id: message.id,
+              createdAt: message.sent_at.toDate(),
+              text: message.message,
+              user: currentUser._id === message.user ? currentUser : otherUser,
+            };
+          });
+          _messages.sort((a, b) => b.createdAt - a.createdAt);
+          setMessages(_messages);
+          console.log(`Received doc snapshot: ${docSnapshot.data()}`);
+        } else {
+          console.log("docSnapshot.data()");
+        }
       },
       (err) => {
         console.log(`Encountered error: ${err}`);
       }
     );
+  };
+
+  useEffect(() => {
+    loadMessages();
   }, []);
 
   const onSend = (messages = []) => {
