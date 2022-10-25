@@ -7,12 +7,15 @@ import {
     SafeAreaView,
   } from "react-native";
 
+  //const ProfileScreen() 
    const Item = ({username, firstName, lastName}) => (
+   
     <View style={styles.item}>
       <Text style={styles.title}>{username}</Text>
       <Text>{firstName} {lastName}</Text>
       
     </View>
+ 
    );
 
 // the filter

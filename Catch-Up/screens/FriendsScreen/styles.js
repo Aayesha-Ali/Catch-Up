@@ -5,9 +5,32 @@ export default StyleSheet.create({
         flex: 1,
         alignItems: 'center'
     },
-    title: {
+    item: {
+        margin: 30,
+        borderBottomWidth: 2,
+        borderBottomColor: "lightgrey",
+        justifyContent: "center",
+      alignItems: "center"
 
-    },
+      },
+    list__container: {
+        margin: 5,
+        height: "85%",
+        width: "100%",
+      
+      },
+      username: {
+        fontSize: 25,
+        fontWeight: "bold",
+        marginBottom: 5,
+
+      },
+      
+      name: {
+        fontSize: 16,
+        marginBottom: 5,
+        fontStyle: "italic",
+      },
     logo: {
         flex: 1,
         height: 200,
