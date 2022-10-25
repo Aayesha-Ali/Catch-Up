@@ -120,6 +120,7 @@ const FriendsNavigator = () => {
         name="AddFriendProfile"
         component={AddFriendProfile}
       />
+      <FriendsStack.Screen name="Chat" component={Chat} />
       <FriendsStack.Screen name="Add Friends" component={AddFriendsScreen} />
       <FriendsStack.Screen
         name="Friend Requests"

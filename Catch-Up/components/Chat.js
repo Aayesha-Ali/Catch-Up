@@ -1,97 +1,107 @@
-import { Text, View } from "react-native";
-import React, {
-  useLayoutEffect,
-  useEffect,
-  useCallback,
-  useState,
-} from "react";
+import React, { useEffect, useState } from "react";
 import { GiftedChat } from "react-native-gifted-chat";
 import { firebase } from "../config";
-import { doc } from "firebase/firestore";
 
-export default function Chat() {
+export default function Chat(props) {
   const [messages, setMessages] = useState([]);
   const db = firebase.firestore().collection("chats");
+  var hash = require("object-hash");
 
-  // 나 자신 (송신자)
+  // Sender
   const currentUser = {
-    _id: "9jiEYnmtdLc3TIpGq1RuEudb7aQ2",
-    name: "Mark",
+    _id: firebase.auth().currentUser.uid,
+    name: "Me",
     avatar: "",
   };
 
-  // 여기에 상대방 (수신자)
-  const destinationUser = {
-    _id: "BmE7RdPZpLSx6VI4juAkXBIkzg52",
-    name: "Junhyeok",
+  // Receiver
+  const otherUser = {
+    _id: props.route.params.user.id,
+    name: props.route.params.user.username,
     avatar: "",
   };
 
-  // 체팅을 firebase에서 가져와서 보여주는 부분 u
-  // currentUser의 id와 destinationUser의 id로 필터한 결과 값을 가져와야 함
-  // 그리고 react-gifted-chats 스타일의 메시지로 transform
+  const chatId = [currentUser._id, otherUser._id].sort().join("_");
+
+  // Get chat from firebase
+  // Get result of filtered currentUser's id와 otherUser's id
+  // transform react-gifted-chats' messages
   const loadMessages = async () => {
-    const sent_messages_snapshot = await db
-      .where("sender", "==", currentUser._id)
-      .orderBy("createdAt", "desc")
-      .get();
+    const messages_snapshot = await db.doc(chatId).get();
 
-    const received_messages_snapshot = await db
-      .where("receiver", "==", currentUser._id)
-      .orderBy("createdAt", "desc")
-      .get();
+    console.log("1-------------");
+    console.log(currentUser);
+    console.log("2-------------");
+    console.log(otherUser);
+    console.log("-------------");
 
-    const sent_messages = sent_messages_snapshot.docs
-      .filter((doc) => doc.data().receiver != destinationUser.uid)
-      .map((doc) => {
+    if (messages_snapshot.exists) {
+      const _messages = messages_snapshot.data().messages.map((message) => {
         return {
-          _id: doc.data().uid,
-          createdAt: doc.data().createdAt.toDate(),
-          text: doc.data().text,
-          user: destinationUser,
+          _id: message.id,
+          createdAt: message.sent_at.toDate(),
+          text: message.message,
+          user: currentUser._id === message.user ? currentUser : otherUser,
         };
       });
-
-    const received_messages = received_messages_snapshot.docs
-      .filter((doc) => doc.data().sender != destinationUser.uid)
-      .map((doc) => {
-        return {
-          _id: doc.data().uid,
-          createdAt: doc.data().createdAt.toDate(),
-          text: doc.data().text,
-          user: currentUser,
-        };
+      _messages.sort((a, b) => b.createdAt - a.createdAt);
+      setMessages(_messages);
+    } else {
+      db.doc(chatId).set({
+        messages: [],
       });
-
-    const _messages = [...sent_messages, ...received_messages];
-    _messages.sort((lhs, rhs) => lhs.createdAt < rhs.createdAt);
-
-    setMessages(_messages);
+    }
   };
 
   useEffect(() => {
     loadMessages();
+    db.doc(chatId).onSnapshot(
+      (docSnapshot) => {
+        loadMessages();
+        // if (typeof docSnapshot.data() === "undefined") {
+        //   const _messages = docSnapshot.data().messages.map((message) => {
+        //     return {
+        //       _id: message.id,
+        //       createdAt: message.sent_at.toDate(),
+        //       text: message.message,
+        //       user: currentUser._id === message.user ? currentUser : otherUser,
+        //     };
+        //   });
+        //   _messages.sort((a, b) => b.createdAt - a.createdAt);
+        //   setMessages(_messages);
+        //   console.log(`Received doc snapshot: ${docSnapshot.data()}`);
+        // } else {
+        //   console.log("docSnapshot.data()");
+        // }
+      },
+      (err) => {
+        console.log(`Encountered error: ${err}`);
+      }
+    );
   }, []);
 
   const onSend = (messages = []) => {
-    // 메시지 내용 가져오고
+    // Get message from GiftedChat
     // Ref: https://github.com/FaridSafi/react-native-gifted-chat#message-object
     const message = messages[0];
     const { createdAt, text } = message;
 
-    // 바로 메시지 append 하고
+    // append messages immediately
     setMessages((previousMessages) =>
-      GiftedChat.append(previousMessages, [
-        { message, sent: true, received: true },
-      ])
+      GiftedChat.append(previousMessages, message)
     );
+    const messageToAdd = {
+      message: text,
+      sent_at: createdAt,
+      user: currentUser._id,
+    };
 
-    // 그리고 Firebase에 저장 해주고
-    db.add({
-      createdAt: createdAt,
-      text: text,
-      sender: currentUser._id,
-      receiver: destinationUser._id,
+    // save messages to firebase
+    db.doc(chatId).update({
+      messages: firebase.firestore.FieldValue.arrayUnion({
+        id: hash(messageToAdd),
+        ...messageToAdd,
+      }),
     });
   };
 
