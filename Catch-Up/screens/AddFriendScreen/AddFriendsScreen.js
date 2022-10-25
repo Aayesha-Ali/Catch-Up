@@ -48,7 +48,6 @@ export default function AddFriendsScreen(props) {
               props.navigation.navigate("AddFriendProfile", { uid: item.id })
             }
           >
-           
             <View style={{margin: 30, borderBottomWidth: 2, borderBottomColor: "lightgrey", justifyContent: "center", alignItems: "center"}} >
             <Text style={{fontSize: 20, marginBottom: 5, fontStyle: "bold",}}>{item.username}</Text>
             <Text style={{fontSize: 16, marginBottom: 5, fontStyle: "italic"}}>{item.firstName} {item.lastName} </Text>
