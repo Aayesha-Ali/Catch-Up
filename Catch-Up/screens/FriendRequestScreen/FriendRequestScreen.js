@@ -1,4 +1,4 @@
-import {Text, View, FlatList, Button } from "react-native";
+import {Text, View, FlatList, Button, Alert } from "react-native";
 import React, { useEffect, useState } from "react";
 import { firebase } from "../../config";
 import styles from "./styles";
@@ -51,6 +51,11 @@ const FriendRequestScreen = (props) => {
   .collection('pendingFriendRequests')
   .doc(id)
   .delete()
+
+  console.log("Friend Request Accepted");
+  Alert.alert("Friend Request Accepted");
+
+  props.navigation.navigate("My Friends List");
 }
 
 const deleteFriendRequest = async(id) => {
@@ -59,6 +64,11 @@ const deleteFriendRequest = async(id) => {
  .collection('pendingFriendRequests')
  .doc(id)
  .delete()
+
+ console.log("Friend Request Deleted");
+ Alert.alert("Friend Request Deleted");
+
+ props.navigation.navigate("My Friends List");
 }
 
   return (
