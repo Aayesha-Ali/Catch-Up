@@ -156,8 +156,8 @@ const FriendsNavigator = () => {
 };
 const SettingsNavigator = () => {
 	return (
-		<SettingsStack.Navigator>
-			<SettingsStack.Screen name="Home" component={HomeScreen} />
+		<SettingsStack.Navigator screenOptions={{ headerShown: false }}>
+			<SettingsStack.Screen name="Settings" component={HomeScreen} />
 			<SettingsStack.Screen name="My Profile" component={UserProfileScreen} />
 			<SettingsStack.Screen name="Map" component={MapScreen} />
 			<SettingsStack.Screen name="Review" component={ReviewScreen} />
