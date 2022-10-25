@@ -14,7 +14,7 @@ import { useFonts as useLato, Lato_400Regular } from "@expo-google-fonts/lato";
 
 import LoginScreen from "./screens/LoginScreen/LoginScreen";
 import RegistrationScreen from "./screens/RegistrationScreen/RegistrationScreen";
-import HomeScreen from "./screens/HomeScreen/HomeScreen";
+import SettingsScreen from "./screens/HomeScreen/SettingsScreen";
 import ResetPasswordScreen from "./screens/ResetPasswordScreen/ResetPasswordScreen";
 import FriendsScreen from "./screens/FriendsScreen/FriendsScreen";
 import AddFriendsScreen from "./screens/AddFriendScreen/AddFriendsScreen";
@@ -157,7 +157,7 @@ const FriendsNavigator = () => {
 const SettingsNavigator = () => {
 	return (
 		<SettingsStack.Navigator screenOptions={{ headerShown: false }}>
-			<SettingsStack.Screen name="Settings" component={HomeScreen} />
+			<SettingsStack.Screen name="Settings" component={SettingsScreen} />
 			<SettingsStack.Screen name="My Profile" component={UserProfileScreen} />
 			<SettingsStack.Screen name="Map" component={MapScreen} />
 			<SettingsStack.Screen name="Review" component={ReviewScreen} />
