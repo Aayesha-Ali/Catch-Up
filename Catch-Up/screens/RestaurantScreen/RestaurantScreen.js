@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useEffect, useState } from "react";
 import { FlatList, TouchableOpacity } from "react-native";
 import { ActivityIndicator, Colors } from "react-native-paper";
 
@@ -10,6 +10,7 @@ import styled from "styled-components";
 import { SafeArea } from "../../components/utils/SafeArea";
 import { Spacer } from "../../components/utils/Spacer";
 import { getRestaurants } from "./restaurants.service";
+import { useMakeRestaurants } from "../../useMakeRestaurants";
 
 const RestaurantList = styled(FlatList).attrs({
 	contentContainerStyle: {
@@ -26,14 +27,23 @@ const LoadingContainer = styled.View`
 	left: 50%;
 `;
 
-const useRestaurant = () => {
-	return {
-		isLoading: false,
-		restaurants: getRestaurants("51.219448,4.402464"),
-	};
-};
 const RestaurantScreen = ({ navigation }) => {
-	const { isLoading, restaurants } = useRestaurant();
+	const [restaurants, setRestaurants] = useState([]);
+	const [isLoading, setIsLoading] = useState(true);
+
+	useEffect(() => {
+		setIsLoading(true);
+
+		getRestaurants()
+			.then((restaurants) => {
+				setRestaurants(restaurants)
+				setIsLoading(false);
+			})
+			.catch(e => {
+				setIsLoading(false);
+			})
+
+	}, []);
 
 	return (
 		<SafeArea>

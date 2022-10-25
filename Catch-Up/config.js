@@ -17,7 +17,7 @@ if (!firebase.apps.length) {
 	firebase.initializeApp(firebaseConfig);
 }
 firebase
-	.firestore()
-	.settings({ experimentalForceLongPolling: true, merge: true });
+  .firestore()
+  .settings({ experimentalForceLongPolling: true, merge: true });
 
 export { firebase };

@@ -1,11 +1,16 @@
-import React, { useState } from "react";
-import { FlatList, SafeAreaView, TextInput, Text } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { ListItem } from "@rneui/themed";
+import React, { useState, useEffect } from "react";
+import {
+  FlatList,
+  SafeAreaView,
+  TextInput,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import styles from "./styles";
 import queryUsersByFirstName from "../../components/queryUsersByFirstName";
 
-export default function AddFriendsScreen() {
+export default function AddFriendsScreen(props) {
   const [otherUsers, setOtherUsers] = useState([]);
   const timeout = React.useRef(null);
 
@@ -16,35 +21,37 @@ export default function AddFriendsScreen() {
       setOtherUsers(queryResults);
     }, 100);
   };
-
+  /*
+    To search the user by first name.
+    And it shows the user's first name and last name.
+  */
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.item}>
       <TextInput
+        styles={styles.textInput}
         placeholder="Search here..."
         onChangeText={(searchText) => {
           onHandlerSearchText(searchText);
         }}
-        style={styles.searchBar}
+        style={styles.searchbar}
+        textAlign="center"
       />
-
+     
       <FlatList
         data={otherUsers}
         horizontal={false}
         numColumns={1}
         renderItem={({ item }) => (
-          <TouchableOpacity>
-            <Text style={styles.user}>
-              {item.firstName + " " + item.lastName}
-            </Text>
-            <ListItem
-              key={item.uid}
-              // leftAvatar={
-              //   {
-              //      source: { uri: item.profilePhotoUrl },
-              //   }
-              // }
-              title={item.firstName + " " + item.lastName}
-            />
+          <TouchableOpacity
+            style={styles.item}
+            onPress={() =>
+              props.navigation.navigate("AddFriendProfile", { uid: item.id })
+            }
+          >
+            <View style={{margin: 30, borderBottomWidth: 2, borderBottomColor: "lightgrey", justifyContent: "center", alignItems: "center"}} >
+            <Text style={{fontSize: 20, marginBottom: 5, fontStyle: "bold",}}>{item.username}</Text>
+            <Text style={{fontSize: 16, marginBottom: 5, fontStyle: "italic"}}>{item.firstName} {item.lastName} </Text>
+            </View>
           </TouchableOpacity>
         )}
       />
